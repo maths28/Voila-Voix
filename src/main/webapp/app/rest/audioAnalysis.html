@@ -1,29 +1,39 @@
-<div ng-cloak>
-    <div class="row">
-        <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
-            fonctionnalités VoilaVoix!</p>
-        <input placeholder="Nom du fichier" ng-model="vm.filename">
-        <input placeholder="Champ 2" ng-model="vm.champ2">
-        <button class="btn btn-primary" ng-click="vm.getjson()">Valider !</button>
-        <div ng-show="vm.result != null">
-            Résultat : {{ vm.result }}
-        </div>
+<div ng-cloak class="row">
+    <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
+        fonctionnalités VoilaVoix!</p>
+    <input placeholder="Nom du fichier a envoyer " ng-model="vm.filename">
+    <button class="btn btn-primary" ng-click="vm.getjson()">Valider !</button>
+    <div ng-show="vm.result != null">
+        Résultat : {{ vm.result }}
+    </div>
+    <table>
+        <tr ng-repeat="item in vm.history">
+            <td>{{item}}</td>
+        </tr>
+    </table>
+
+    <div class="col-md-6">
+        <h1>Historique</h1>
         <table>
-            <tr ng-repeat="item in vm.history">
-                <td>{{item}}</td>
+            <tr ng-repeat="new in vm.news ">
+                <td>{{new.title}}</td>
+
             </tr>
         </table>
     </div>
 
-    <table>
 
-        <tr ng-repeat="item in vm.json">
-            <td>{{ item.index }}</td>
-            <td>{{ item.age }}</td>
-            <td>{{ item.name }}</td>
-        </tr>
+    <div class="col-md-6">
 
-    </table>
+        <h1>Nouveautés</h1>
+        <table class="table table-striped">
+            <tr ng-repeat="new in vm.news ">
+                <td>{{new.title}}<div class="col-md-12">{{new.description}} </div></td>
+                <td>{{new.newsDate}}</td>
+            </tr>
+        </table>
+
+    </div>
 
 
 </div>

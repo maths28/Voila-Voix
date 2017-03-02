@@ -11,7 +11,7 @@
     function RestRequest($resource) {
         var vm = this;
 
-        vm.jsonres = $resource('testres/json', {}, {
+        vm.jsonres = $resource('bingService/analyse', {}, {
             'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
