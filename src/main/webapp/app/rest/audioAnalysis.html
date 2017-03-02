@@ -1,11 +1,12 @@
 <div ng-cloak class="row">
-    <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
-        fonctionnalités VoilaVoix!</p>
-    <input placeholder="Nom du fichier a envoyer " ng-model="vm.filename">
-    <button class="btn btn-primary" ng-click="vm.getjson()">Valider !</button>
-    <div ng-show="vm.result != null">
-        Résultat : {{ vm.result }}
+    <div class="col-md-12 col-centered text-center" >
+        <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
+            fonctionnalités VoilaVoix!</p>
+        <input placeholder="Nom du fichier a envoyer " ng-model="vm.filename">
+        <p/><button class="btn btn-primary" ng-click="vm.getjson()">Valider !</button>
     </div>
+
+
     <table>
         <tr ng-repeat="item in vm.history">
             <td>{{item}}</td>
@@ -28,7 +29,9 @@
         <h1>Nouveautés</h1>
         <table class="table table-striped">
             <tr ng-repeat="new in vm.news ">
-                <td>{{new.title}}<div class="col-md-12">{{new.description}} </div></td>
+                <td>{{new.title}}
+                    <div class="col-md-12">{{new.description}}</div>
+                </td>
                 <td>{{new.newsDate}}</td>
             </tr>
         </table>
