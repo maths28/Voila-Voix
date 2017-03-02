@@ -5,41 +5,15 @@
         .module('voilaVoixApp')
         .controller('TestController', TestController);
 
-    TestController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource'];
+    TestController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest'];
 
-    function TestController ($scope, Principal, LoginService, $state, $resource) {
+    function TestController ($scope, Principal, LoginService, $state, $resource, RestRequest) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
         vm.filename = "";
-        vm.champ2 = "";
-        vm.result = null;
-        vm.history = ["Stuff", "AnotherStuff"];
-        vm.jsonres = $resource('testres/json', {}, {
-            'query': {method: 'GET', isArray: true},
-            'get': {
-                method: 'GET',
-                transformResponse: function (data) {
-                    data = angular.fromJson(data);
-                    return data;
-                }
-            },
-            'save': { method:'POST' },
-            'update': { method:'PUT' },
-            'delete':{ method:'DELETE'}
-        });
-
-        vm.json = null;
-
-        vm.login = LoginService.open;
-        vm.register = register;
-        $scope.$on('authenticationSuccess', function() {
-            getAccount();
-        });
-
-        getAccount();
-
+        vm.uri ="testres";
         function getAccount() {
             Principal.identity().then(function(account) {
                 vm.account = account;
@@ -59,7 +33,8 @@
         };
 
         vm.getjson = function () {
-            vm.json = vm.jsonres.query();
+            vm.json = RestRequest.query();
+
         }
 
 
