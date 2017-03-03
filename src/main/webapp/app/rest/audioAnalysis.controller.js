@@ -44,32 +44,8 @@
             News.query(function (result) {
                 vm.news = result;
             })
+
         }
-
-        // function loadAll() {
-        //     if (pagingParams.search) {
-        //         NewsSearch.query({
-        //             query: pagingParams.search,
-        //             page: pagingParams.page - 1,
-        //             size: vm.itemsPerPage,
-        //             sort: sort()
-        //         }, onSuccess, onError);
-        //     } else {
-        //         News.query({
-        //             page: pagingParams.page - 1,
-        //             size: vm.itemsPerPage,
-        //             sort: sort()
-        //         }, onSuccess, onError);
-        //     }
-        //     function sort() {
-        //         var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
-        //         if (vm.predicate !== 'id') {
-        //             result.push('id');
-        //         }
-        //         return result;
-        //     }
-
     }
-
 
 })();

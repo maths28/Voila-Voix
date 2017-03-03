@@ -1,48 +1,38 @@
-<div ng-cloak class="row">
-    <div class="col-md-12 col-centered text-center">
-        <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
-            fonctionnalités VoilaVoix!</p>
-        <input placeholder="Nom du fichier a envoyer " ng-model="vm.filename">
-        <p/>
-        <button class="btn btn-primary" ng-click="vm.getjson()">Valider !</button>
-        <p/>
+<div ng-cloak class="row" ng-app="VoilaVoix" ng-module="resultController">
+    <h1 class="col-md-12"> Resultat du traitement audio </h1>
 
-    </div>
-</div>
-
-<div class="row well container">
-    <table>
-        <tr ng-repeat="item in vm.history">
-            <td>{{item}}</td>
-        </tr>
-    </table>
-
-    <div class="col-md-6">
-        <h1>Historique</h1>
-        <table>
-            <tr ng-repeat="new in vm.news ">
-                <td>{{new.title}}</td>
-
-            </tr>
-        </table>
-    </div>
-
-
-    <div class="col-md-6">
-
-        <h1>Nouveautés</h1>
+    <div class=" well col-md-3">
+        <b> Liste des participants : </b><p/>
         <table class="table table-striped">
-            <tr ng-repeat="new in vm.news ">
-                <td>{{new.title}}
-                    <div class="col-md-12">{{new.description}}</div>
+            <tr ng-repeat="speaker in vm.speakers">
+                <td> Participant : {{speaker.name}}</td>
+
+            </tr>
+        </table>
+    </div>
+    <!--Permet d'afficher le contenu sous forme de texte-->
+    <div class="well col-md-9">
+        <b> Texte transcodé: </b><p/>
+        <span ng-repeat="word in vm.words">
+                 {{word.name}}
+        </span>
+    </div>
+
+
+    <div class="well col-md-9 col-lg-offset-3">
+        <b> Mots et intervales : </b><p/>
+
+        <table class="table table-striped">
+            <tr ng-repeat="word in vm.words">
+                <td> mot : {{word.name}}
+                    <div class="col-md-12">seconde : {{word.time}}</div>
                 </td>
-                <td>{{new.newsDate}}</td>
             </tr>
         </table>
 
     </div>
 
-
+</div>
 </div>
 
 
