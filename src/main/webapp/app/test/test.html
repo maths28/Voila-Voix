@@ -1,19 +1,18 @@
 <div ng-cloak>
     <div class="row">
-        <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières fonctionnalités VoilaVoix!</p>
+        <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
+            fonctionnalités VoilaVoix!</p>
         <input placeholder="Nom du fichier" ng-model="vm.filename">
         <input placeholder="Champ 2" ng-model="vm.champ2">
         <button class="btn btn-primary" ng-click="vm.getjson()">Valider !</button>
         <div ng-show="vm.result != null">
             Résultat : {{ vm.result }}
         </div>
-
-        <button ng-click="vm.getHistiry()"></button>
-    <table>
-        <tr ng-repeat="item in vm.history">
-            <td>{{item}}</td>
-        </tr>
-    </table>
+        <table>
+            <tr ng-repeat="item in vm.history">
+                <td>{{item}}</td>
+            </tr>
+        </table>
     </div>
 
     <table>
@@ -28,10 +27,6 @@
 
 
 </div>
-
-
-
-
 
 
 <!--div class="col-md-4">
