@@ -19,13 +19,13 @@ supported. Synchronous tests should be handled synchronously to improve speed an
 The new API looks like this:
 
 ```js
-// Listen to a test, give it a callback
+sendRequest
 Modernizr.on('testname', function( result ) {
   if (result) {
-    console.log('The test passed!');
+    console.log(sendRequest);
   }
   else {
-    console.log('The test failed!');
+    console.log(sendRequest);
   }
 });
 ```

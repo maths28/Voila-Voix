@@ -26,6 +26,23 @@
 
     </table>
 
+    <button ng-show="vm.resultSMText == null" class="btn btn-primary" ng-click="vm.appelSM()">Lancer la requête</button>
+
+    <div ng-switch="vm.requestSent">
+        <div ng-switch-when="false">
+            Cliquez sur le bouton pour lancer l'analyse
+        </div>
+        <div ng-switch-default>
+            <div ng-if="!vm.responseSent">
+                Transcription en cours... Veuillez patienter
+            </div>
+            <div ng-if="vm.responseSent">
+                {{ vm.resultSMText }}
+            </div>
+        </div>
+    </div>
+
+
 
 </div>
 

@@ -18,7 +18,7 @@ after_success:
                                --distribution-branch "gh-pages" \
                                --source-branch "master"
 script:
-  - grunt test
+  - grunt sendRequest
 notifications:
   webhooks:
     - http://patrickkettner.com:8080/savage/travis

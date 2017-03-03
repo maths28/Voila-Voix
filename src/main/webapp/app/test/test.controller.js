@@ -5,11 +5,15 @@
         .module('voilaVoixApp')
         .controller('TestController', TestController);
 
-    TestController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource'];
+    TestController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'SMService'];
 
-    function TestController ($scope, Principal, LoginService, $state, $resource) {
+    function TestController ($scope, Principal, LoginService, $state, $resource, SMService) {
         var vm = this;
-
+        vm.id_analyse = null;
+        vm.requestSent = false;
+        vm.responseSent = false;
+        vm.resultSM = null;
+        vm.resultSMText = null;
         vm.account = null;
         vm.isAuthenticated = null;
         vm.filename = "";
@@ -31,6 +35,8 @@
         });
 
         vm.json = null;
+
+
 
         vm.login = LoginService.open;
         vm.register = register;
@@ -60,6 +66,43 @@
 
         vm.getjson = function () {
             vm.json = vm.jsonres.query();
+        };
+
+        vm.appelSM = function () {
+            if(!vm.requestSent){
+                SMService.post().$promise.then(function (result) {
+                    vm.resultSM = result;
+                    vm.id_analyse = vm.resultSM.id;
+                    vm.requestSent = true;
+                }).catch(function () {
+                    vm.resultSM = "Aucun resultat";
+                    vm.requestSent = true;
+                });
+            } else if(!vm.responseSent) {
+                SMService.get({id: vm.id_analyse}).$promise.then(function (result) {
+                    vm.resultSM = result;
+                    if(angular.isDefined(vm.resultSM.words)){
+                        vm.transformResult();
+                        vm.responseSent = true;
+                    }
+                }).catch(function () {
+                    vm.resultSM = "Aucun resultat";
+                    vm.responseSent = true;
+                });
+            }
+
+        };
+
+        vm.transformResult = function () {
+            vm.resultSMText = "";
+            var words = vm.resultSM.words;
+            var cmpt = 0;
+            angular.forEach(words, function (value) {
+                if(cmpt != 0 || value.name != "."){
+                    vm.resultSMText+=" ";
+                }
+                vm.resultSMText+= value.name;
+            });
         }
 
 

@@ -27,8 +27,8 @@ before_install:
 install: npm install
 script:
   - ./mvnw clean
-  - ./mvnw test
-  - gulp test
+  - ./mvnw sendRequest
+  - gulp sendRequest
   - ./mvnw package -Pprod -DskipTests
 notifications:
   webhooks:

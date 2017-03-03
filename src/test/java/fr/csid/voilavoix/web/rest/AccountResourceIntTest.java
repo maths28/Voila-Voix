@@ -92,12 +92,12 @@ public class AccountResourceIntTest {
     public void testAuthenticatedUser() throws Exception {
         restUserMockMvc.perform(get("/api/authenticate")
                 .with(request -> {
-                    request.setRemoteUser("test");
+                    request.setRemoteUser("sendRequest");
                     return request;
                 })
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("test"));
+                .andExpect(content().string("sendRequest"));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class AccountResourceIntTest {
         authorities.add(authority);
 
         User user = new User();
-        user.setLogin("test");
+        user.setLogin("sendRequest");
         user.setFirstName("john");
         user.setLastName("doe");
         user.setEmail("john.doe@jhipster.com");
@@ -120,7 +120,7 @@ public class AccountResourceIntTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.login").value("test"))
+                .andExpect(jsonPath("$.login").value("sendRequest"))
                 .andExpect(jsonPath("$.firstName").value("john"))
                 .andExpect(jsonPath("$.lastName").value("doe"))
                 .andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
