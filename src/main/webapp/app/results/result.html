@@ -24,8 +24,10 @@
 
         <table class="table table-striped" ng-show=vm.show >
             <tr ng-repeat="word in vm.words">
-                <td> mot : {{word.name}}
-                    <div class="col-md-12">seconde : {{word.time}}</div>
+                <td> <b>Mot :</b> {{word.name}}
+                    <div class="col-md-12">Seconde : {{word.time}}</div>
+                    <div class="col-md-12"> Confiance : {{word.confidence}}</div>
+
                 </td>
             </tr>
         </table>
