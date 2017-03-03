@@ -44,7 +44,7 @@
             News.query(function (result) {
                 vm.news = result;
             })
-            
+
         }
     }
 

@@ -11,6 +11,19 @@
         var vm = this;
         vm.speakers = [];
         vm.words = [];
+        vm.show = false;
+        vm.textBtn = "Afficher";
+        vm.showWords = function() {
+            if (vm.show == true) {
+                vm.show = false;
+                vm.textBtn = "Afficher";
+            } else {
+                vm.show = true;
+                vm.textBtn = "Masquer";
+
+            }
+
+        }
 
         var json = {
             "job": {
