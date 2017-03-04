@@ -13,7 +13,8 @@
         vm.words = [];
         vm.show = false;
         vm.textBtn = "Afficher";
-        vm.showWords = function() {
+        vm.umnamedTab = [];
+        vm.showWords = function () {
             if (vm.show == true) {
                 vm.show = false;
                 vm.textBtn = "Afficher";
@@ -748,6 +749,20 @@
         for (var i = 0; i <= vm.nbrWords; i++) {
             vm.words.push(json["words"][i]);
         }
+
+        for (var i = 0; i < vm.words.length; i++) {
+            for (var y = 0; y < vm.speakers.length; y++) {
+
+                if (parseFloat(json["words"][i]["time"]) >= parseFloat(json["speakers"][y]["time"]) && parseFloat(json["words"][i]["time"]) <= parseFloat(json["speakers"][y]["time"]) + parseFloat(json["speakers"][y]["duration"])) {
+                    console.log(json["words"][i]["time"]);
+                    console.log( parseFloat(json["speakers"][y]["time"]) +  parseFloat(json["speakers"][y]["duration"]));
+                    json["words"][i]["speaker"] = json["speakers"][y]["name"];
+                }
+
+            }
+
+        }
+
     }
 
 
