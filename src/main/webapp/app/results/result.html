@@ -15,6 +15,17 @@
     <div class="well col-md-9">
         <b> Texte transcodé: </b>
         <p/>
+        <div ng-switch="vm.requestSent">
+            <div ng-switch-when="false">
+                Envoi de la requête en cours
+            </div>
+            <div ng-switch-default>
+                <div ng-if="!vm.responseSent">
+                    Transcription en cours... Veuillez patienter<br/>
+                    <button ng-click="vm.appelSM()" class="col-md-3 btn  btn-primary">Rafraichir les résultats</button>
+                </div>
+            </div>
+        </div>
         <span ng-repeat="word in vm.words">
                  {{word.name}}
         </span>
