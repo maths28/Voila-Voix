@@ -51,16 +51,16 @@ public class UserResourceIntTest {
      * Create a User.
      *
      * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which has a required relationship to the User entity.
+     * if they sendRequest an entity which has a required relationship to the User entity.
      */
     public static User createEntity(EntityManager em) {
         User user = new User();
-        user.setLogin("test");
+        user.setLogin("sendRequest");
         user.setPassword(RandomStringUtils.random(60));
         user.setActivated(true);
-        user.setEmail("test@test.com");
-        user.setFirstName("test");
-        user.setLastName("test");
+        user.setEmail("sendRequest@sendRequest.com");
+        user.setFirstName("sendRequest");
+        user.setLastName("sendRequest");
         user.setImageUrl("http://placehold.it/50x50");
         user.setLangKey("en");
         em.persist(user);

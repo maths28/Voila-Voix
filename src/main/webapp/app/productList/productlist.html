@@ -1,0 +1,17 @@
+<div ng-cloak>
+    <div class="row">
+
+        <div class="well" ng-repeat="subscription in vm.subscriptions">
+            <div class="row">
+                <div class="col-md-9">
+                    <h1>{{ subscription.label }}</h1>
+                    <p>{{ subscription.description }}</p>
+                </div>
+                <div class="col-md-3">
+                    <h1>API : {{ subscription.api }}</h1>
+                    <button class="btn btn-primary">S'inscrire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

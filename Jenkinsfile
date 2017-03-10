@@ -22,7 +22,7 @@ node {
     }
     stage('backend tests') {
         try {
-            sh "./mvnw test"
+            sh "./mvnw sendRequest"
         } catch(err) {
             throw err
         } finally {
@@ -32,11 +32,11 @@ node {
 
     stage('frontend tests') {
         try {
-            sh "./mvnw com.github.eirslett:frontend-maven-plugin:gulp -Dfrontend.gulp.arguments=test"
+            sh "./mvnw com.github.eirslett:frontend-maven-plugin:gulp -Dfrontend.gulp.arguments=sendRequest"
         } catch(err) {
             throw err
         } finally {
-            junit '**/target/test-results/karma/TESTS-*.xml'
+            junit '**/target/sendRequest-results/karma/TESTS-*.xml'
         }
     }
 
