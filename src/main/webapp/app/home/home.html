@@ -1,7 +1,19 @@
 <div ng-cloak>
 
+    <div ng-switch="vm.isAuthenticated()">
+        <div class="alert alert-success" ng-switch-when="true" >
+            You are logged in as user .
+            <br/>
+            {{vm.account.login}}
+            <br/>
+            {{vm.account.userInfo}}
+        </div>
+    </div>
+
+
+
     <div>
-        <h1>Découvrer VoilàVoix</h1>
+        <h1>Découvrez VoilàVoix</h1>
         <p>Notre projet à pour objectif de fournir aux non informaticiens une solution de conversion “Voix vers texte” (Speech to Text), ainsi que des outils pour analyser le texte obtenu, à la portée de n’importe qui.
             Le projet permettrait à des propriétaires de site non-expérimenté souhaitant automatiser l’indexation de mots clés et de thématiques contenus dans ses fichiers audio.
         </p>
