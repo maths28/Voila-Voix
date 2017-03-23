@@ -30,7 +30,7 @@
             </div>
         </div>
         <span ng-repeat="word in vm.words">
-                 <a id="vm.target(vm.words.indexOf(word)" base ng-click="vm.target(vm.words.indexOf(word), true)" href="" > {{word.name}} </a>
+                 <a id="m{{vm.words.indexOf(word)}}" base ng-click="vm.target(vm.words.indexOf(word), true)"> {{word.name}} </a>
         </span>
     </div>
 
@@ -42,7 +42,7 @@
 
         <table class="table table-striped" ng-show=vm.show>
             <tr ng-repeat="word in vm.words">
-                <td><b>Mot :</b> <a id="{{vm.words.indexOf(word)}}">{{word.name}}</a>
+                <td><b>Mot :</b> <a id="{{vm.words.indexOf(word)}}" ng-click="vm.target('m'+vm.words.indexOf(word), true)" >{{word.name}}</a>
                     <div class="col-md-12"> Seconde : {{word.time}}</div>
                     <div class="col-md-12"> Confiance : {{word.confidence}}</div>
                     <div class="col-md-12"> Participant : {{word.speaker}}</div>
