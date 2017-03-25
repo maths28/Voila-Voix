@@ -9,7 +9,9 @@
             <p/>
             <table class="table table-striped">
                 <tr ng-repeat="speaker in vm.speakers">
-                    <td> Participant : {{speaker.name}}</td>
+                    <td id={{speaker.name}} class=" btn btn-primary " ng-click="vm.speakersFunction(speaker.name)">
+                        Participant : {{speaker.name}}
+                    </td>
 
                 </tr>
             </table>
@@ -18,17 +20,12 @@
 
             <b> Rechercher un mot </b>
             <input class="col-md-8" ng-model="vm.wordToSearch">
-            </input> <button class=" btn-primary col-md-4" ng-click="vm.wordToSearchFunction()">trouver</button>
+            </input>
+            <button class=" btn-primary col-md-4" ng-click="vm.wordToSearchFunction()">trouver</button>
             <div ng-repeat="word in vm.wordToSearchResult">
                 Prononcé seconde : <a base ng-click="vm.target(vm.words.indexOf(word), true)">{{word.time}}</a>
-
-
             </div>
-
-
         </div>
-
-
     </div>
 
     <!--Permet d'afficher le contenu sous forme de texte-->

@@ -22,10 +22,34 @@
         vm.wordToSearchResult = [];
         vm.idToReset = [];
 
+        vm.speakersFunction = function (speaker) {
+            for(var i = 0; i <= vm.nbrSpeakers ;i++){
+                var idElmt = document.getElementById(json['speakers'][i]['name']);
+                    idElmt.className="btn btn-primary";
+            }
+            var idElmt = document.getElementById(speaker);
+            idElmt.className=" btn btn-success";
+
+            for (var i = 0; i < vm.nbrWords; i++) {
+                var idElmt = document.getElementById('m' + i);
+                idElmt.style.color = '#337ab7';
+                idElmt.style.fontWeight = 'normal';
+            }
+
+            for (var i = 0; i < vm.nbrWords; i++) {
+                if (json['words'][i]['speaker'] == speaker) {
+                    var idElmt = document.getElementById('m' + i);
+                    idElmt.style.color = 'green';
+                    idElmt.style.fontWeight = 'normal';
+
+                }
+            }
+        }
+
         vm.wordToSearchFunction = function () {
             vm.wordToSearchResult = [];
 
-            if(!vm.idToReset.isEmpty) {
+            if (!vm.idToReset.isEmpty) {
                 for (var id in vm.idToReset) {
                     var idElmt = document.getElementById(vm.idToReset[id]);
                     idElmt.style.color = 'blue';
@@ -34,7 +58,7 @@
                 vm.idToReset = [];
             }
 
-            for (var i = 1; i < vm.nbrWords; i++) {
+            for (var i = 0; i < vm.nbrWords; i++) {
                 if ((json['words'][i]['name']).toUpperCase() == vm.wordToSearch.toUpperCase()) {
                     vm.wordToSearchResult.push(json['words'][i]);
                     var idElmt = document.getElementById('m' + json['words'][i]['id']);
