@@ -18,6 +18,33 @@
         vm.show = false;
         vm.textBtn = "Afficher";
         vm.umnamedTab = [];
+        vm.wordToSearch = "";
+        vm.wordToSearchResult = [];
+        vm.idToReset = [];
+
+        vm.wordToSearchFunction = function () {
+            vm.wordToSearchResult = [];
+
+            if(!vm.idToReset.isEmpty) {
+                for (var id in vm.idToReset) {
+                    var idElmt = document.getElementById(vm.idToReset[id]);
+                    idElmt.style.color = 'blue';
+                    idElmt.style.fontWeight = 'normal';
+                }
+                vm.idToReset = [];
+            }
+
+            for (var i = 1; i < vm.nbrWords; i++) {
+                if ((json['words'][i]['name']).toUpperCase() == vm.wordToSearch.toUpperCase()) {
+                    vm.wordToSearchResult.push(json['words'][i]);
+                    var idElmt = document.getElementById('m' + json['words'][i]['id']);
+                    idElmt.style.color = 'red';
+                    idElmt.style.fontWeight = 'bold';
+                    vm.idToReset.push('m' + json['words'][i]['id'])
+                    console.log(json['words'][i]['name']);
+                }
+            }
+        }
 
         vm.wordsToggleOff = function () {
             vm.show = false;
@@ -767,6 +794,8 @@
                     if (parseFloat(json["words"][i]["time"]) >= parseFloat(json["speakers"][y]["time"]) && parseFloat(json["words"][i]["time"]) <= parseFloat(json["speakers"][y]["time"]) + parseFloat(json["speakers"][y]["duration"])) {
 
                         json["words"][i]["speaker"] = json["speakers"][y]["name"];
+                        json["words"][i]["id"] = i;
+
                     }
 
                 }

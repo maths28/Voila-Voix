@@ -3,16 +3,34 @@
     <h1 class="col-md-12"> Resultat du traitement audio </h1>
     <!--<button class="btn-primary" style="position: fixed" ng-click="vm.target('')" >Haut de page</button>-->
 
-    <div class=" well col-md-3">
-        <b> Liste des participants : </b>
-        <p/>
-        <table class="table table-striped">
-            <tr ng-repeat="speaker in vm.speakers">
-                <td> Participant : {{speaker.name}}</td>
+    <div class=" col-md-3">
+        <div class="  well col-md-12">
+            <b> Liste des participants : </b>
+            <p/>
+            <table class="table table-striped">
+                <tr ng-repeat="speaker in vm.speakers">
+                    <td> Participant : {{speaker.name}}</td>
 
-            </tr>
-        </table>
+                </tr>
+            </table>
+        </div>
+        <div class=" well col-md-12">
+
+            <b> Rechercher un mot </b>
+            <input class="col-md-8" ng-model="vm.wordToSearch">
+            </input> <button class=" btn-primary col-md-4" ng-click="vm.wordToSearchFunction()">trouver</button>
+            <div ng-repeat="word in vm.wordToSearchResult">
+                Prononcé seconde : <a base ng-click="vm.target(vm.words.indexOf(word), true)">{{word.time}}</a>
+
+
+            </div>
+
+
+        </div>
+
+
     </div>
+
     <!--Permet d'afficher le contenu sous forme de texte-->
     <div class="well col-md-8">
         <h6>Il est possible de cliquer sur un mot pour dirrectement acceder a ses details</h6>
@@ -35,14 +53,15 @@
     </div>
 
 
-    <div class="well col-md-9 col-lg-offset-3">
+    <div class="well col-md-9 ">
         <b class="col-md-9"> Mots et intervales : </b>
         <button ng-click="vm.showWords()" class="col-md-3 btn  btn-primary"> {{vm.textBtn}}</button>
         <p/>
 
         <table class="table table-striped" ng-show=vm.show>
             <tr ng-repeat="word in vm.words">
-                <td><b>Mot :</b> <a id="{{vm.words.indexOf(word)}}" ng-click="vm.target('m'+vm.words.indexOf(word), true)" >{{word.name}}</a>
+                <td><b>Mot :</b> <a id="{{vm.words.indexOf(word)}}"
+                                    ng-click="vm.target('m'+vm.words.indexOf(word), true)">{{word.name}}</a>
                     <div class="col-md-12"> Seconde : {{word.time}}</div>
                     <div class="col-md-12"> Confiance : {{word.confidence}}</div>
                     <div class="col-md-12"> Participant : {{word.speaker}}</div>
