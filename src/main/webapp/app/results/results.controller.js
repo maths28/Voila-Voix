@@ -769,17 +769,29 @@
             }
         };
 
+        vm.isString = function (value) {
+          return angular.isString(value);
+        };
+
         vm.appelSM = function () {
             if(!vm.requestSent){
-                SMService.post().$promise.then(function (result) {
-                    vm.result = result;
-                    vm.id_analyse = vm.result.id;
-                    vm.requestSent = true;
-                }).catch(function () {
+                SMService.post().then(function (result) {
+                    var result = result.data;
+                    if(result.error){
+                        vm.result = "Aucun resultat";
+                        vm.requestSent = true;
+                    } else {
+                        vm.result = result;
+                        vm.id_analyse = vm.result.id;
+                        vm.requestSent = true;
+                    }
+
+                }, function () {
                     vm.result = "Aucun resultat";
                     vm.requestSent = true;
                 });
-            } else if(!vm.responseSent) {
+            }
+            else if(!vm.responseSent) {
                 SMService.get({id: vm.id_analyse}).$promise.then(function (result) {
                     vm.result = result;
                     if(angular.isDefined(vm.result.words)){

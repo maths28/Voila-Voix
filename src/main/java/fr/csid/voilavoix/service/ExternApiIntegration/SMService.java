@@ -1,12 +1,12 @@
 package fr.csid.voilavoix.service.ExternApiIntegration;
 
 import fr.csid.voilavoix.config.LoggingConfiguration;
+import fr.csid.voilavoix.domain.Audio;
+import fr.csid.voilavoix.repository.AudioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.*;
 
@@ -30,6 +31,10 @@ public class SMService {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Autowired
+    private AudioRepository audioRepository;
+
+
 
     private final Logger log = LoggerFactory.getLogger(LoggingConfiguration.class);
 
@@ -39,11 +44,12 @@ public class SMService {
     }
 
 
-    public Map<String, String> sendRequest(){
-        Resource resource = resourceLoader.getResource("classpath:camus1.mp3");
+    public Map<String, String> sendRequest(File file){
+//        Audio audio = audioRepository.findOne(Long.valueOf(id));
+//        Resource resource = resourceLoader.sgetResource("classpath:camus1.mp3");
         //TODO : Requete token et id
         try {
-            return this.sendFileRequest(resource.getFile(), "MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2", "12066");
+            return this.sendFileRequest(file, "MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2", "12066");
         } catch (Exception e){
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("error", e.toString());

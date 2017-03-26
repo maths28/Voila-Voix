@@ -20,9 +20,12 @@
                 Envoi de la requête en cours
             </div>
             <div ng-switch-default>
-                <div ng-if="!vm.responseSent">
+                <div ng-if="!vm.responseSent && !vm.isString(vm.result)">
                     Transcription en cours... Veuillez patienter<br/>
                     <button ng-click="vm.appelSM()" class="col-md-3 btn  btn-primary">Rafraichir les résultats</button>
+                </div>
+                <div ng-if="vm.isString(vm.result)">
+                    {{vm.result}}
                 </div>
             </div>
         </div>
