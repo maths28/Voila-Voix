@@ -5,9 +5,9 @@
         .module('voilaVoixApp')
         .controller('resultController', resultController);
 
-    resultController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest', 'SMService'];
+    resultController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest', 'SMService', '$location'];
 
-    function resultController($scope, Principal, LoginService, $state, $resource, RestRequest, SMService) {
+    function resultController($scope, Principal, LoginService, $state, $resource, RestRequest, SMService, $location) {
         var vm = this;
         vm.id_analyse = null;
         vm.requestSent = false;
@@ -18,16 +18,73 @@
         vm.show = false;
         vm.textBtn = "Afficher";
         vm.umnamedTab = [];
-        vm.showWords = function () {
-            if (vm.show == true) {
-                vm.show = false;
-                vm.textBtn = "Afficher";
-            } else {
-                vm.show = true;
-                vm.textBtn = "Masquer";
+        vm.wordToSearch = "";
+        vm.wordToSearchResult = [];
+        vm.idToReset = [];
 
+        vm.speakersFunction = function (speaker) {
+            for(var i = 0; i <= vm.nbrSpeakers ;i++){
+                var idElmt = document.getElementById(json['speakers'][i]['name']);
+                    idElmt.className="btn btn-primary";
+            }
+            var idElmt = document.getElementById(speaker);
+            idElmt.className=" btn btn-success";
+
+            for (var i = 0; i < vm.nbrWords; i++) {
+                var idElmt = document.getElementById('m' + i);
+                idElmt.style.color = '#337ab7';
+                idElmt.style.fontWeight = 'normal';
             }
 
+            for (var i = 0; i < vm.nbrWords; i++) {
+                if (json['words'][i]['speaker'] == speaker) {
+                    var idElmt = document.getElementById('m' + i);
+                    idElmt.style.color = 'green';
+                    idElmt.style.fontWeight = 'normal';
+
+                }
+            }
+        }
+
+        vm.wordToSearchFunction = function () {
+            vm.wordToSearchResult = [];
+
+            if (!vm.idToReset.isEmpty) {
+                for (var id in vm.idToReset) {
+                    var idElmt = document.getElementById(vm.idToReset[id]);
+                    idElmt.style.color = 'blue';
+                    idElmt.style.fontWeight = 'normal';
+                }
+                vm.idToReset = [];
+            }
+
+            for (var i = 0; i < vm.nbrWords; i++) {
+                if ((json['words'][i]['name']).toUpperCase() == vm.wordToSearch.toUpperCase()) {
+                    vm.wordToSearchResult.push(json['words'][i]);
+                    var idElmt = document.getElementById('m' + json['words'][i]['id']);
+                    idElmt.style.color = 'red';
+                    idElmt.style.fontWeight = 'bold';
+                    vm.idToReset.push('m' + json['words'][i]['id'])
+                    console.log(json['words'][i]['name']);
+                }
+            }
+        }
+
+        vm.wordsToggleOff = function () {
+            vm.show = false;
+            vm.textBtn = "Afficher";
+        }
+        vm.wordsToggleOn = function () {
+            vm.show = true;
+            vm.textBtn = "Masquer";
+        }
+
+        vm.showWords = function () {
+            if (vm.show == true) {
+                vm.wordsToggleOff();
+            } else {
+                vm.wordsToggleOn();
+            }
         };
 
         // var json = {
@@ -759,9 +816,10 @@
                 for (var y = 0; y < vm.speakers.length; y++) {
 
                     if (parseFloat(json["words"][i]["time"]) >= parseFloat(json["speakers"][y]["time"]) && parseFloat(json["words"][i]["time"]) <= parseFloat(json["speakers"][y]["time"]) + parseFloat(json["speakers"][y]["duration"])) {
-                        console.log(json["words"][i]["time"]);
-                        console.log( parseFloat(json["speakers"][y]["time"]) +  parseFloat(json["speakers"][y]["duration"]));
+
                         json["words"][i]["speaker"] = json["speakers"][y]["name"];
+                        json["words"][i]["id"] = i;
+
                     }
 
                 }
@@ -806,10 +864,15 @@
 
         };
 
+        vm.target = function (target, btnBool) {
+            window.location = '#' + $location.path() + '#' + target;
+            if (btnBool == true) {
+                vm.wordsToggleOn();
+            }
+
+        }
         vm.appelSM();
-
-
-
+        vm.extractResult(json)
     }
 
 
