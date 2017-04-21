@@ -17,7 +17,7 @@
         }
     ],
     "changelogDate": "20170302091612",
-    "dto": "no",
+    "dto": "mapstruct",
     "service": "no",
     "entityTableName": "subscription",
     "pagination": "no"

@@ -1,10 +1,16 @@
-<div ng-cloak class="row">
+    <div ng-cloak class="row">
     <div class="col-md-12 col-centered text-center">
         <p>Ici, vous pouvez charger vos fichiers à analyser, voir l'historique des analyses ainsi que les dernières
             fonctionnalités VoilaVoix!</p>
-        <input placeholder="Nom du fichier a envoyer " ng-model="vm.filename">
-        <p/>
-        <button class="btn btn-lg btn-primary" ui-sref="result">Analyser </button>
+        <!--<input placeholder="Nom du fichier a envoyer " ng-model="vm.filename">-->
+        <!--<p/>-->
+        <!--<button class="btn btn-lg btn-primary" ui-sref="result">Analyser </button>-->
+
+        <form name="vm.form">
+            <input type="file" ngf-select ngf-change="vm.setFile($file, vm.audio)" name="file" ngf-max-size="20MB"/>
+            <button class="btn btn-lg btn-primary" ng-click="vm.submit()">submit</button>
+
+        </form>
 
         <p/>
 

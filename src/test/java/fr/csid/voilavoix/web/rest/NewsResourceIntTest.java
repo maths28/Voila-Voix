@@ -5,6 +5,8 @@ import fr.csid.voilavoix.VoilaVoixApp;
 import fr.csid.voilavoix.domain.News;
 import fr.csid.voilavoix.repository.NewsRepository;
 import fr.csid.voilavoix.repository.search.NewsSearchRepository;
+import fr.csid.voilavoix.service.dto.NewsDTO;
+import fr.csid.voilavoix.service.mapper.NewsMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,6 +54,9 @@ public class NewsResourceIntTest {
     private NewsRepository newsRepository;
 
     @Autowired
+    private NewsMapper newsMapper;
+
+    @Autowired
     private NewsSearchRepository newsSearchRepository;
 
     @Autowired
@@ -70,7 +75,7 @@ public class NewsResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            NewsResource newsResource = new NewsResource(newsRepository, newsSearchRepository);
+            NewsResource newsResource = new NewsResource(newsRepository, newsMapper, newsSearchRepository);
         this.restNewsMockMvc = MockMvcBuilders.standaloneSetup(newsResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -102,10 +107,11 @@ public class NewsResourceIntTest {
         int databaseSizeBeforeCreate = newsRepository.findAll().size();
 
         // Create the News
+        NewsDTO newsDTO = newsMapper.newsToNewsDTO(news);
 
         restNewsMockMvc.perform(post("/api/news")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(news)))
+            .content(TestUtil.convertObjectToJsonBytes(newsDTO)))
             .andExpect(status().isCreated());
 
         // Validate the News in the database
@@ -129,11 +135,12 @@ public class NewsResourceIntTest {
         // Create the News with an existing ID
         News existingNews = new News();
         existingNews.setId(1L);
+        NewsDTO existingNewsDTO = newsMapper.newsToNewsDTO(existingNews);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restNewsMockMvc.perform(post("/api/news")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingNews)))
+            .content(TestUtil.convertObjectToJsonBytes(existingNewsDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -195,10 +202,11 @@ public class NewsResourceIntTest {
                 .title(UPDATED_TITLE)
                 .newsDate(UPDATED_NEWS_DATE)
                 .description(UPDATED_DESCRIPTION);
+        NewsDTO newsDTO = newsMapper.newsToNewsDTO(updatedNews);
 
         restNewsMockMvc.perform(put("/api/news")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedNews)))
+            .content(TestUtil.convertObjectToJsonBytes(newsDTO)))
             .andExpect(status().isOk());
 
         // Validate the News in the database
@@ -220,11 +228,12 @@ public class NewsResourceIntTest {
         int databaseSizeBeforeUpdate = newsRepository.findAll().size();
 
         // Create the News
+        NewsDTO newsDTO = newsMapper.newsToNewsDTO(news);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restNewsMockMvc.perform(put("/api/news")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(news)))
+            .content(TestUtil.convertObjectToJsonBytes(newsDTO)))
             .andExpect(status().isCreated());
 
         // Validate the News in the database

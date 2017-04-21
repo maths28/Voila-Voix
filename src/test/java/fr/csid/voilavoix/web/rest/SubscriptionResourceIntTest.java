@@ -5,6 +5,8 @@ import fr.csid.voilavoix.VoilaVoixApp;
 import fr.csid.voilavoix.domain.Subscription;
 import fr.csid.voilavoix.repository.SubscriptionRepository;
 import fr.csid.voilavoix.repository.search.SubscriptionSearchRepository;
+import fr.csid.voilavoix.service.dto.SubscriptionDTO;
+import fr.csid.voilavoix.service.mapper.SubscriptionMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +52,9 @@ public class SubscriptionResourceIntTest {
     private SubscriptionRepository subscriptionRepository;
 
     @Autowired
+    private SubscriptionMapper subscriptionMapper;
+
+    @Autowired
     private SubscriptionSearchRepository subscriptionSearchRepository;
 
     @Autowired
@@ -68,7 +73,7 @@ public class SubscriptionResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            SubscriptionResource subscriptionResource = new SubscriptionResource(subscriptionRepository, subscriptionSearchRepository);
+            SubscriptionResource subscriptionResource = new SubscriptionResource(subscriptionRepository, subscriptionMapper, subscriptionSearchRepository);
         this.restSubscriptionMockMvc = MockMvcBuilders.standaloneSetup(subscriptionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -100,10 +105,11 @@ public class SubscriptionResourceIntTest {
         int databaseSizeBeforeCreate = subscriptionRepository.findAll().size();
 
         // Create the Subscription
+        SubscriptionDTO subscriptionDTO = subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
 
         restSubscriptionMockMvc.perform(post("/api/subscriptions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(subscription)))
+            .content(TestUtil.convertObjectToJsonBytes(subscriptionDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Subscription in the database
@@ -127,11 +133,12 @@ public class SubscriptionResourceIntTest {
         // Create the Subscription with an existing ID
         Subscription existingSubscription = new Subscription();
         existingSubscription.setId(1L);
+        SubscriptionDTO existingSubscriptionDTO = subscriptionMapper.subscriptionToSubscriptionDTO(existingSubscription);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSubscriptionMockMvc.perform(post("/api/subscriptions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingSubscription)))
+            .content(TestUtil.convertObjectToJsonBytes(existingSubscriptionDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -193,10 +200,11 @@ public class SubscriptionResourceIntTest {
                 .label(UPDATED_LABEL)
                 .description(UPDATED_DESCRIPTION)
                 .api(UPDATED_API);
+        SubscriptionDTO subscriptionDTO = subscriptionMapper.subscriptionToSubscriptionDTO(updatedSubscription);
 
         restSubscriptionMockMvc.perform(put("/api/subscriptions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedSubscription)))
+            .content(TestUtil.convertObjectToJsonBytes(subscriptionDTO)))
             .andExpect(status().isOk());
 
         // Validate the Subscription in the database
@@ -218,11 +226,12 @@ public class SubscriptionResourceIntTest {
         int databaseSizeBeforeUpdate = subscriptionRepository.findAll().size();
 
         // Create the Subscription
+        SubscriptionDTO subscriptionDTO = subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restSubscriptionMockMvc.perform(put("/api/subscriptions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(subscription)))
+            .content(TestUtil.convertObjectToJsonBytes(subscriptionDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Subscription in the database
