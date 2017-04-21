@@ -13,7 +13,7 @@
         }
     ],
     "changelogDate": "20170310152303",
-    "dto": "no",
+    "dto": "mapstruct",
     "service": "no",
     "entityTableName": "audio",
     "pagination": "no"

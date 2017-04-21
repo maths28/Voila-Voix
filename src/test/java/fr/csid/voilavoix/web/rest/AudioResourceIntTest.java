@@ -5,6 +5,8 @@ import fr.csid.voilavoix.VoilaVoixApp;
 import fr.csid.voilavoix.domain.Audio;
 import fr.csid.voilavoix.repository.AudioRepository;
 import fr.csid.voilavoix.repository.search.AudioSearchRepository;
+import fr.csid.voilavoix.service.dto.AudioDTO;
+import fr.csid.voilavoix.service.mapper.AudioMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +52,9 @@ public class AudioResourceIntTest {
     private AudioRepository audioRepository;
 
     @Autowired
+    private AudioMapper audioMapper;
+
+    @Autowired
     private AudioSearchRepository audioSearchRepository;
 
     @Autowired
@@ -68,7 +73,7 @@ public class AudioResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            AudioResource audioResource = new AudioResource(audioRepository, audioSearchRepository);
+            AudioResource audioResource = new AudioResource(audioRepository, audioMapper, audioSearchRepository);
         this.restAudioMockMvc = MockMvcBuilders.standaloneSetup(audioResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -100,10 +105,11 @@ public class AudioResourceIntTest {
         int databaseSizeBeforeCreate = audioRepository.findAll().size();
 
         // Create the Audio
+        AudioDTO audioDTO = audioMapper.audioToAudioDTO(audio);
 
         restAudioMockMvc.perform(post("/api/audios")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(audio)))
+            .content(TestUtil.convertObjectToJsonBytes(audioDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Audio in the database
@@ -127,11 +133,12 @@ public class AudioResourceIntTest {
         // Create the Audio with an existing ID
         Audio existingAudio = new Audio();
         existingAudio.setId(1L);
+        AudioDTO existingAudioDTO = audioMapper.audioToAudioDTO(existingAudio);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAudioMockMvc.perform(post("/api/audios")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingAudio)))
+            .content(TestUtil.convertObjectToJsonBytes(existingAudioDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -193,10 +200,11 @@ public class AudioResourceIntTest {
                 .file(UPDATED_FILE)
                 .fileContentType(UPDATED_FILE_CONTENT_TYPE)
                 .name(UPDATED_NAME);
+        AudioDTO audioDTO = audioMapper.audioToAudioDTO(updatedAudio);
 
         restAudioMockMvc.perform(put("/api/audios")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedAudio)))
+            .content(TestUtil.convertObjectToJsonBytes(audioDTO)))
             .andExpect(status().isOk());
 
         // Validate the Audio in the database
@@ -218,11 +226,12 @@ public class AudioResourceIntTest {
         int databaseSizeBeforeUpdate = audioRepository.findAll().size();
 
         // Create the Audio
+        AudioDTO audioDTO = audioMapper.audioToAudioDTO(audio);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAudioMockMvc.perform(put("/api/audios")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(audio)))
+            .content(TestUtil.convertObjectToJsonBytes(audioDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Audio in the database

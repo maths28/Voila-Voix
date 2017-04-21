@@ -7,6 +7,8 @@ import fr.csid.voilavoix.repository.NewsRepository;
 import fr.csid.voilavoix.repository.search.NewsSearchRepository;
 import fr.csid.voilavoix.web.rest.util.HeaderUtil;
 import fr.csid.voilavoix.web.rest.util.PaginationUtil;
+import fr.csid.voilavoix.service.dto.NewsDTO;
+import fr.csid.voilavoix.service.mapper.NewsMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,29 +43,34 @@ public class NewsResource {
         
     private final NewsRepository newsRepository;
 
+    private final NewsMapper newsMapper;
+
     private final NewsSearchRepository newsSearchRepository;
 
-    public NewsResource(NewsRepository newsRepository, NewsSearchRepository newsSearchRepository) {
+    public NewsResource(NewsRepository newsRepository, NewsMapper newsMapper, NewsSearchRepository newsSearchRepository) {
         this.newsRepository = newsRepository;
+        this.newsMapper = newsMapper;
         this.newsSearchRepository = newsSearchRepository;
     }
 
     /**
      * POST  /news : Create a new news.
      *
-     * @param news the news to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new news, or with status 400 (Bad Request) if the news has already an ID
+     * @param newsDTO the newsDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new newsDTO, or with status 400 (Bad Request) if the news has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/news")
     @Timed
-    public ResponseEntity<News> createNews(@RequestBody News news) throws URISyntaxException {
-        log.debug("REST request to save News : {}", news);
-        if (news.getId() != null) {
+    public ResponseEntity<NewsDTO> createNews(@RequestBody NewsDTO newsDTO) throws URISyntaxException {
+        log.debug("REST request to save News : {}", newsDTO);
+        if (newsDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new news cannot already have an ID")).body(null);
         }
-        News result = newsRepository.save(news);
-        newsSearchRepository.save(result);
+        News news = newsMapper.newsDTOToNews(newsDTO);
+        news = newsRepository.save(news);
+        NewsDTO result = newsMapper.newsToNewsDTO(news);
+        newsSearchRepository.save(news);
         return ResponseEntity.created(new URI("/api/news/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -71,23 +79,25 @@ public class NewsResource {
     /**
      * PUT  /news : Updates an existing news.
      *
-     * @param news the news to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated news,
-     * or with status 400 (Bad Request) if the news is not valid,
-     * or with status 500 (Internal Server Error) if the news couldnt be updated
+     * @param newsDTO the newsDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated newsDTO,
+     * or with status 400 (Bad Request) if the newsDTO is not valid,
+     * or with status 500 (Internal Server Error) if the newsDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/news")
     @Timed
-    public ResponseEntity<News> updateNews(@RequestBody News news) throws URISyntaxException {
-        log.debug("REST request to update News : {}", news);
-        if (news.getId() == null) {
-            return createNews(news);
+    public ResponseEntity<NewsDTO> updateNews(@RequestBody NewsDTO newsDTO) throws URISyntaxException {
+        log.debug("REST request to update News : {}", newsDTO);
+        if (newsDTO.getId() == null) {
+            return createNews(newsDTO);
         }
-        News result = newsRepository.save(news);
-        newsSearchRepository.save(result);
+        News news = newsMapper.newsDTOToNews(newsDTO);
+        news = newsRepository.save(news);
+        NewsDTO result = newsMapper.newsToNewsDTO(news);
+        newsSearchRepository.save(news);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, news.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, newsDTO.getId().toString()))
             .body(result);
     }
 
@@ -100,32 +110,33 @@ public class NewsResource {
      */
     @GetMapping("/news")
     @Timed
-    public ResponseEntity<List<News>> getAllNews(@ApiParam Pageable pageable)
+    public ResponseEntity<List<NewsDTO>> getAllNews(@ApiParam Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of News");
         Page<News> page = newsRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/news");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(newsMapper.newsToNewsDTOs(page.getContent()), headers, HttpStatus.OK);
     }
 
     /**
      * GET  /news/:id : get the "id" news.
      *
-     * @param id the id of the news to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the news, or with status 404 (Not Found)
+     * @param id the id of the newsDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the newsDTO, or with status 404 (Not Found)
      */
     @GetMapping("/news/{id}")
     @Timed
-    public ResponseEntity<News> getNews(@PathVariable Long id) {
+    public ResponseEntity<NewsDTO> getNews(@PathVariable Long id) {
         log.debug("REST request to get News : {}", id);
         News news = newsRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(news));
+        NewsDTO newsDTO = newsMapper.newsToNewsDTO(news);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(newsDTO));
     }
 
     /**
      * DELETE  /news/:id : delete the "id" news.
      *
-     * @param id the id of the news to delete
+     * @param id the id of the newsDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/news/{id}")
@@ -148,12 +159,12 @@ public class NewsResource {
      */
     @GetMapping("/_search/news")
     @Timed
-    public ResponseEntity<List<News>> searchNews(@RequestParam String query, @ApiParam Pageable pageable)
+    public ResponseEntity<List<NewsDTO>> searchNews(@RequestParam String query, @ApiParam Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to search for a page of News for query {}", query);
         Page<News> page = newsSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/news");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(newsMapper.newsToNewsDTOs(page.getContent()), headers, HttpStatus.OK);
     }
 
 

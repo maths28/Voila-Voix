@@ -6,6 +6,8 @@ import fr.csid.voilavoix.domain.Subscription;
 import fr.csid.voilavoix.repository.SubscriptionRepository;
 import fr.csid.voilavoix.repository.search.SubscriptionSearchRepository;
 import fr.csid.voilavoix.web.rest.util.HeaderUtil;
+import fr.csid.voilavoix.service.dto.SubscriptionDTO;
+import fr.csid.voilavoix.service.mapper.SubscriptionMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,29 +37,34 @@ public class SubscriptionResource {
         
     private final SubscriptionRepository subscriptionRepository;
 
+    private final SubscriptionMapper subscriptionMapper;
+
     private final SubscriptionSearchRepository subscriptionSearchRepository;
 
-    public SubscriptionResource(SubscriptionRepository subscriptionRepository, SubscriptionSearchRepository subscriptionSearchRepository) {
+    public SubscriptionResource(SubscriptionRepository subscriptionRepository, SubscriptionMapper subscriptionMapper, SubscriptionSearchRepository subscriptionSearchRepository) {
         this.subscriptionRepository = subscriptionRepository;
+        this.subscriptionMapper = subscriptionMapper;
         this.subscriptionSearchRepository = subscriptionSearchRepository;
     }
 
     /**
      * POST  /subscriptions : Create a new subscription.
      *
-     * @param subscription the subscription to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new subscription, or with status 400 (Bad Request) if the subscription has already an ID
+     * @param subscriptionDTO the subscriptionDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new subscriptionDTO, or with status 400 (Bad Request) if the subscription has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/subscriptions")
     @Timed
-    public ResponseEntity<Subscription> createSubscription(@RequestBody Subscription subscription) throws URISyntaxException {
-        log.debug("REST request to save Subscription : {}", subscription);
-        if (subscription.getId() != null) {
+    public ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody SubscriptionDTO subscriptionDTO) throws URISyntaxException {
+        log.debug("REST request to save Subscription : {}", subscriptionDTO);
+        if (subscriptionDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new subscription cannot already have an ID")).body(null);
         }
-        Subscription result = subscriptionRepository.save(subscription);
-        subscriptionSearchRepository.save(result);
+        Subscription subscription = subscriptionMapper.subscriptionDTOToSubscription(subscriptionDTO);
+        subscription = subscriptionRepository.save(subscription);
+        SubscriptionDTO result = subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
+        subscriptionSearchRepository.save(subscription);
         return ResponseEntity.created(new URI("/api/subscriptions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -65,23 +73,25 @@ public class SubscriptionResource {
     /**
      * PUT  /subscriptions : Updates an existing subscription.
      *
-     * @param subscription the subscription to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated subscription,
-     * or with status 400 (Bad Request) if the subscription is not valid,
-     * or with status 500 (Internal Server Error) if the subscription couldnt be updated
+     * @param subscriptionDTO the subscriptionDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated subscriptionDTO,
+     * or with status 400 (Bad Request) if the subscriptionDTO is not valid,
+     * or with status 500 (Internal Server Error) if the subscriptionDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/subscriptions")
     @Timed
-    public ResponseEntity<Subscription> updateSubscription(@RequestBody Subscription subscription) throws URISyntaxException {
-        log.debug("REST request to update Subscription : {}", subscription);
-        if (subscription.getId() == null) {
-            return createSubscription(subscription);
+    public ResponseEntity<SubscriptionDTO> updateSubscription(@RequestBody SubscriptionDTO subscriptionDTO) throws URISyntaxException {
+        log.debug("REST request to update Subscription : {}", subscriptionDTO);
+        if (subscriptionDTO.getId() == null) {
+            return createSubscription(subscriptionDTO);
         }
-        Subscription result = subscriptionRepository.save(subscription);
-        subscriptionSearchRepository.save(result);
+        Subscription subscription = subscriptionMapper.subscriptionDTOToSubscription(subscriptionDTO);
+        subscription = subscriptionRepository.save(subscription);
+        SubscriptionDTO result = subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
+        subscriptionSearchRepository.save(subscription);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, subscription.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, subscriptionDTO.getId().toString()))
             .body(result);
     }
 
@@ -92,30 +102,31 @@ public class SubscriptionResource {
      */
     @GetMapping("/subscriptions")
     @Timed
-    public List<Subscription> getAllSubscriptions() {
+    public List<SubscriptionDTO> getAllSubscriptions() {
         log.debug("REST request to get all Subscriptions");
         List<Subscription> subscriptions = subscriptionRepository.findAll();
-        return subscriptions;
+        return subscriptionMapper.subscriptionsToSubscriptionDTOs(subscriptions);
     }
 
     /**
      * GET  /subscriptions/:id : get the "id" subscription.
      *
-     * @param id the id of the subscription to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the subscription, or with status 404 (Not Found)
+     * @param id the id of the subscriptionDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the subscriptionDTO, or with status 404 (Not Found)
      */
     @GetMapping("/subscriptions/{id}")
     @Timed
-    public ResponseEntity<Subscription> getSubscription(@PathVariable Long id) {
+    public ResponseEntity<SubscriptionDTO> getSubscription(@PathVariable Long id) {
         log.debug("REST request to get Subscription : {}", id);
         Subscription subscription = subscriptionRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(subscription));
+        SubscriptionDTO subscriptionDTO = subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(subscriptionDTO));
     }
 
     /**
      * DELETE  /subscriptions/:id : delete the "id" subscription.
      *
-     * @param id the id of the subscription to delete
+     * @param id the id of the subscriptionDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/subscriptions/{id}")
@@ -136,10 +147,11 @@ public class SubscriptionResource {
      */
     @GetMapping("/_search/subscriptions")
     @Timed
-    public List<Subscription> searchSubscriptions(@RequestParam String query) {
+    public List<SubscriptionDTO> searchSubscriptions(@RequestParam String query) {
         log.debug("REST request to search Subscriptions for query {}", query);
         return StreamSupport
             .stream(subscriptionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .map(subscriptionMapper::subscriptionToSubscriptionDTO)
             .collect(Collectors.toList());
     }
 
