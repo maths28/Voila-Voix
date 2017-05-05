@@ -23,6 +23,7 @@
         vm.idToReset = [];
 
         vm.speakersFunction = function (speaker) {
+            var json = vm.result;
             for(var i = 0; i <= vm.nbrSpeakers ;i++){
                 var idElmt = document.getElementById(json['speakers'][i]['name']);
                     idElmt.className="btn btn-primary";
@@ -47,6 +48,7 @@
         }
 
         vm.wordToSearchFunction = function () {
+            var json = vm.result;
             vm.wordToSearchResult = [];
 
             if (!vm.idToReset.isEmpty) {
@@ -864,6 +866,11 @@
 
         };
 
+        // vm.result = json;
+        // vm.requestSent = true;
+        // vm.responseSent = true;
+
+
         vm.target = function (target, btnBool) {
             window.location = '#' + $location.path() + '#' + target;
             if (btnBool == true) {
@@ -872,7 +879,7 @@
 
         }
         vm.appelSM();
-        vm.extractResult(json)
+        // vm.extractResult(json)
     }
 
 
