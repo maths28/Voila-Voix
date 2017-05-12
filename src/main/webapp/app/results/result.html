@@ -19,7 +19,7 @@
         <div class=" well col-md-12">
 
             <b> Rechercher un mot </b>
-            <input class="col-md-8" ng-model="vm.wordToSearch">
+            <input class="col-md-8" ng-model="vm.wordToSearch" type="search" >
             </input>
             <button class=" btn-primary col-md-4" ng-click="vm.wordToSearchFunction()">trouver</button>
             <div ng-repeat="word in vm.wordToSearchResult">
@@ -48,7 +48,7 @@
             </div>
         </div>
         <span ng-repeat="word in vm.words">
-                 <a id="m{{vm.words.indexOf(word)}}" base ng-click="vm.target(vm.words.indexOf(word), true)"> {{word.name}} </a>
+                 <a id="m{{vm.words.indexOf(word)}}" base ng-click="vm.target(vm.words.indexOf(word), true)">{{word.name}}</a>
         </span>
     </div>
 
@@ -59,14 +59,39 @@
         <p/>
 
         <table class="table table-striped" ng-show=vm.show>
+            <thead>
+                <tr>
+                    <th>Mot</th>
+                    <th>Temps (en sec)</th>
+                    <th>Confiance</th>
+                    <th>Participant</th>
+                </tr>
+
+            </thead>
+            <tbody>
+
             <tr ng-repeat="word in vm.words">
-                <td><b>Mot :</b> <a id="{{vm.words.indexOf(word)}}"
-                                    ng-click="vm.target('m'+vm.words.indexOf(word), true)">{{word.name}}</a>
-                    <div class="col-md-12"> Seconde : {{word.time}}</div>
-                    <div class="col-md-12"> Confiance : {{word.confidence}}</div>
-                    <div class="col-md-12"> Participant : {{word.speaker}}</div>
-                </td>
+
+                        <td colspan="4" ng-if="word.name == '.' ">Fin de phrase</td>
+
+
+
+
+                        <td ng-if="word.name != '.' ">
+                            <a id="{{vm.words.indexOf(word)}}" ng-click="vm.target('m'+vm.words.indexOf(word), true)">{{word.name}}</a>
+                        </td>
+                        <td ng-if="word.name != '.' "> {{word.time}}</td>
+                        <td ng-if="word.name != '.' "> {{word.confidence}}</td>
+                        <td ng-if="word.name != '.' "> {{word.speaker}}</td>
+
+
+                    </ng-switch>
+
+
+
+
             </tr>
+            </tbody>
         </table>
     </div>
 </div>

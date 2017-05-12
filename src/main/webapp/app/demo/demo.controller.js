@@ -33,8 +33,9 @@
 
             for (var i = 0; i < vm.nbrWords; i++) {
                 var idElmt = document.getElementById('m' + i);
-                idElmt.style.color = '#337ab7';
+                idElmt.style.color = '#337ab7'; //blue
                 idElmt.style.fontWeight = 'normal';
+
             }
 
             for (var i = 0; i < vm.nbrWords; i++) {
@@ -56,6 +57,7 @@
                     var idElmt = document.getElementById(vm.idToReset[id]);
                     idElmt.style.color = 'blue';
                     idElmt.style.fontWeight = 'normal';
+                    idElmt.removeAttribute("aria-label");
                 }
                 vm.idToReset = [];
             }
@@ -66,6 +68,7 @@
                     var idElmt = document.getElementById('m' + json['words'][i]['id']);
                     idElmt.style.color = 'red';
                     idElmt.style.fontWeight = 'bold';
+                    idElmt.setAttribute("aria-label", "résultat");
                     vm.idToReset.push('m' + json['words'][i]['id'])
                     console.log(json['words'][i]['name']);
                 }
