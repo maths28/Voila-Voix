@@ -7,7 +7,22 @@
         <!--<button class="btn btn-lg btn-primary" ui-sref="result">Analyser </button>-->
 
         <form name="vm.form">
-            <input type="file" ngf-select ngf-change="vm.setFile($file, vm.audio)" name="file" ngf-max-size="20MB"/>
+            <!--<label class="btn btn-default btn-file">-->
+                <!--tetst-->
+                <!--<input type="file" ngf-select ngf-change="vm.setFile($file, vm.audio)" name="file" ngf-max-size="20MB"/>-->
+            <!--</label>-->
+
+            <div class="input-group col-md-6 col-md-offset-3">
+            <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Parcourir <input style="display: none;" type="file" ngf-select ngf-change="vm.setFile($file, vm.audio)" name="file" ngf-max-size="20MB"/>
+                    </span>
+            </label>
+            <input type="text" ng-model="vm.audio.file.name" class="form-control" readonly>
+    </div>
+
+            <br/>
+
             <button class="btn btn-lg btn-primary" ng-click="vm.submit()">submit</button>
 
         </form>
