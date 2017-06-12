@@ -10,7 +10,6 @@ import dataTools.MapTools;
 import dataTools.TextTools;
 import dataTools.TokenGenerator;
 import it.uniroma1.lcl.babelnet.BabelNet;
-import it.uniroma1.lcl.babelnet.BabelSynset;
 import metaClass.Definition;
 
 /**
@@ -28,7 +27,7 @@ public class main {
 
 			BabelNet bn = BabelNet.getInstance();
 
-			String theTxt = "GPU"; //Le texte a analyser, phrase possible, mais moyen tant que textTools n'a pas corriger la section avec ecrit //PARTIE A CORRIGER ITERATOR
+			String theTxt = "Les ordinateurs ont des GPU des CPU ainsi que des périphériques "; //Le texte a analyser, phrase possible, mais moyen tant que textTools n'a pas corriger la section avec ecrit //PARTIE A CORRIGER ITERATOR
 			List<String> wordList = TextTools.textSpliter(theTxt); //On le decoupe
 			System.out.println("TEXTE SPLITE" + wordList + "TEXTE SPLITE");
 			

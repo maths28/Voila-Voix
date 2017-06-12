@@ -29,6 +29,17 @@
 		</dependency>
 
 		<dependency>
+			<groupId>it.uniroma1.lcl.jlt</groupId>
+			<artifactId>jltutils</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>it.uniroma1.lcl.babelnet</groupId>
+			<artifactId>babelnet-api</artifactId>
+			<version>3.7</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>1.5.3.RELEASE</version>

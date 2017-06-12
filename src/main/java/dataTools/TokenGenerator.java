@@ -70,7 +70,7 @@ public class TokenGenerator {
 		for (int i = 0; i < wordsTab.size(); i++) {
 			if (aMap.containsKey(wordsTab.get(i))) {
 				aMap.put(wordsTab.get(i), aMap.get(wordsTab.get(i)) + 1);
-				System.out.println("Cl� : " + wordsTab.get(i) + " valeur " + (aMap.get(wordsTab.get(i)) + 1));
+				System.out.println("Cle : " + wordsTab.get(i) + " valeur " + (aMap.get(wordsTab.get(i)) + 1));
 
 			} else {
 				aMap.put(wordsTab.get(i), 1);
