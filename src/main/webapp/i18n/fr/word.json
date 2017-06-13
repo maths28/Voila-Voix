@@ -1,0 +1,22 @@
+{
+    "voilaVoix2App": {
+        "word" : {
+            "home": {
+                "title": "Words",
+                "createLabel": "Créer un nouveau Word",
+                "createOrEditLabel": "Créer ou éditer un Word"
+            },
+            "created": "Un nouveau Word a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Word avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Word avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Word {{ id }} ?"
+            },
+            "detail": {
+                "title": "Word"
+            },
+            "word": "Word",
+            "definition": "Definition"
+        }
+    }
+}

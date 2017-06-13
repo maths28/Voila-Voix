@@ -1,0 +1,22 @@
+{
+    "voilaVoix2App": {
+        "definition" : {
+            "home": {
+                "title": "Definitions",
+                "createLabel": "Créer un nouveau Definition",
+                "createOrEditLabel": "Créer ou éditer un Definition"
+            },
+            "created": "Un nouveau Definition a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Definition avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Definition avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Definition {{ id }} ?"
+            },
+            "detail": {
+                "title": "Definition"
+            },
+            "definition": "Definition",
+            "word": "Word"
+        }
+    }
+}

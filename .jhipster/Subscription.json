@@ -1,0 +1,23 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "label",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "api",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170613191438",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "subscription",
+    "pagination": "no"
+}

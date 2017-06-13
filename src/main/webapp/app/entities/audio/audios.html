@@ -1,0 +1,65 @@
+<div>
+    <h2 data-translate="voilaVoix2App.audio.home.title">Audios</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="audio.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="voilaVoix2App.audio.home.createLabel">
+                        Create new Audio
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="voilaVoix2App.audio.file">File</span></th>
+                    <th><span data-translate="voilaVoix2App.audio.file_content_type">File Content Type</span></th>
+                    <th><span data-translate="voilaVoix2App.audio.name">Name</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="audio in vm.audios track by audio.id">
+                    <td><a ui-sref="audio-detail({id:audio.id})">{{audio.id}}</a></td>
+                    <td>
+                        <a ng-if="audio.file" ng-click="vm.openFile(audio.fileContentType, audio.file)">
+                            <img data-ng-src="{{'data:' + audio.fileContentType + ';base64,' + audio.file}}" style="max-height: 30px;" alt="audio image"/>
+                        </a>
+                        <span ng-if="audio.file">{{audio.fileContentType}}, {{vm.byteSize(audio.file)}}</span>
+                    </td>
+                    <td>{{audio.file_content_type}}</td>
+                    <td>{{audio.name}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="audio-detail({id:audio.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="audio.edit({id:audio.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="audio.delete({id:audio.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
