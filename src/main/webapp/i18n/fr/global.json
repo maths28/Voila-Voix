@@ -10,6 +10,8 @@
                 "subscription": "Subscription",
                 "news": "News",
                 "audio": "Audio",
+                "word": "Word",
+                "definition": "Definition",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "definition",
+            "otherEntityName": "definition",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "word"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "word",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170613140726",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "word",
+    "pagination": "no"
+}

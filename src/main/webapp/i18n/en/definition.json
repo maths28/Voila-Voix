@@ -1,0 +1,23 @@
+{
+    "voilaVoixApp": {
+        "definition" : {
+            "home": {
+                "title": "Definitions",
+                "createLabel": "Create a new Definition",
+                "createOrEditLabel": "Create or edit a Definition",
+                "search": "Search for Definition"
+            },
+            "created": "A new Definition is created with identifier {{ param }}",
+            "updated": "A Definition is updated with identifier {{ param }}",
+            "deleted": "A Definition is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Definition {{ id }}?"
+            },
+            "detail": {
+                "title": "Definition"
+            },
+            "definition": "Definition",
+            "word": "Word"
+        }
+    }
+}
