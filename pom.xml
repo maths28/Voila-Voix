@@ -105,6 +105,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>it.uniroma1.lcl.babelnet</groupId>
+            <artifactId>babelnet-api</artifactId>
+            <version>3.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>it.uniroma1.lcl.jlt</groupId>
+            <artifactId>jltutils</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster</artifactId>
             <version>${jhipster.server.version}</version>
@@ -607,17 +620,6 @@
                     <logging>debug</logging>
                 </configuration>
                 <dependencies>
-                    <dependency>
-                        <groupId>it.uniroma1.lcl.babelnet</groupId>
-                        <artifactId>babelnet-api</artifactId>
-                        <version>3.7</version>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>it.uniroma1.lcl.jlt</groupId>
-                        <artifactId>jltutils</artifactId>
-                        <version>2.2</version>
-                    </dependency>
 
                     <dependency>
                         <groupId>org.javassist</groupId>
