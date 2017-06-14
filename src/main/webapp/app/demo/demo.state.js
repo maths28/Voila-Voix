@@ -1,0 +1,32 @@
+(function() {
+    'use strict';
+
+    angular
+        .module('voilaVoix2App')
+        .config(stateConfig);
+
+    stateConfig.$inject = ['$stateProvider'];
+
+    function stateConfig($stateProvider) {
+        $stateProvider.state('demo', {
+            parent: 'app',
+            url: '/demo',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: 'app/demo/demo.html',
+                    controller: 'DemoController',
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                    $translatePartialLoader.addPart('home');
+                    return $translate.refresh();
+                }]
+            }
+        });
+    }
+})();
