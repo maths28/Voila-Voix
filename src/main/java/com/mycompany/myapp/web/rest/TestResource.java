@@ -20,6 +20,7 @@ import javax.sound.sampled.AudioInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,9 @@ public class TestResource {
 
         if (audio != null) {
             log.debug("Nom du fichier audio uploadé deja present dans la bdd");
-            return audio.getFileContentType();
+            JSONObject jsonAsSend = new JSONObject(audio.getFile_content_type());
+            Object respons =  jsonAsSend.toString();
+            return respons;
         } else {
             log.debug("Ajout de l'audio a la bdd");
 
@@ -75,9 +78,9 @@ public class TestResource {
             log.error("RESULT : " + result.toString());
             audio = new Audio();
             audio.setName(file.getOriginalFilename());
-            audio.setFileContentType(jsonResult);
+            audio.setFile_content_type(result.toString());
             audioR.createAudio(audio);
-
+            log.error("RESULT : " + result.toString());
             return result;
 //        return smService.sendRequest(id);
         }

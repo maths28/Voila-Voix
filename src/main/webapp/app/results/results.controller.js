@@ -146,7 +146,6 @@
                 });
             }
             else if (!vm.responseSent) {
-                console.log("TEST")
                 SMService.get({id: vm.id_analyse}).$promise.then(function (result) {
                     vm.result = result;
                     if (angular.isDefined(vm.result.words)) {
