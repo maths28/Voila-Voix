@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import it.uniroma1.lcl.babelnet.BabelNet;
 
-@Component
+@Component 
 public class BabelSynsets {
 
 	public static List<Definition> synsetCreator(BabelNet bn, String aWord) throws IOException {
