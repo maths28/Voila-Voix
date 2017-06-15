@@ -9,7 +9,7 @@
             </button>
             <a class="navbar-brand logo" href="#/" ng-click="vm.collapseNavbar()">
                 <img class="logo-img" src="content/images/logo-jhipster.png" alt="logo"/>
-                <span data-translate="global.title">VoilaVoix2</span> <span class="navbar-version">v{{VERSION}}</span>
+                <span data-translate="global.title">VoilaVoix</span> <span class="navbar-version">v{{VERSION}}</span>
             </a>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
@@ -22,13 +22,13 @@
                 </li>
                 <li ui-sref-active="active" ng-switch-when="true" has-authority="ROLE_ADMIN">
                     <a ui-sref="audioAnalysis" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-home"></span>
-                        <span class="hidden-sm">Home</span>
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <span class="hidden-sm">Nouvelle analyse</span>
                     </a>
                 </li>
+
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-                <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown
-                    class="dropdown pointer">
+                <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
@@ -39,18 +39,6 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
-                        <li ui-sref-active="active">
-                            <a ui-sref="word" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span data-translate="global.menu.entities.word">Word</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref="definition" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span data-translate="global.menu.entities.definition">Definition</span>
-                            </a>
-                        </li>
                         <li ui-sref-active="active">
                             <a ui-sref="news" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
@@ -69,12 +57,6 @@
                                 <span data-translate="global.menu.entities.audio">Audio</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active">
-                                <a ui-sref="audios-post-computing" ng-click="vm.collapseNavbar()">
-                                    <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                    <span data-translate="global.menu.entities.audiosPostComputing">Audios Post Computing</span>
-                                </a>
-                            </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>
@@ -102,6 +84,12 @@
                             </a>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="true">
+                            <a ui-sref="sessions" ng-click="vm.collapseNavbar()">
+                                <span class="glyphicon glyphicon-cloud"></span>&nbsp;
+                                <span data-translate="global.menu.account.sessions">Sessions</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active" ng-switch-when="true">
                             <a href="" ng-click="vm.logout()" id="logout">
                                 <span class="glyphicon glyphicon-log-out"></span>&nbsp;
                                 <span data-translate="global.menu.account.logout">Sign out</span>
@@ -121,8 +109,7 @@
                         </li>
                     </ul>
                 </li>
-                <li ng-class="{active: vm.$state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN"
-                    uib-dropdown class="dropdown pointer">
+                <li ng-class="{active: vm.$state.includes('admin')}"  ng-switch-when="true" has-authority="ROLE_ADMIN" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="admin-menu">
                         <span>
                             <span class="glyphicon glyphicon-tower"></span>
@@ -176,8 +163,7 @@
                         <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     </ul>
                 </li>
-                <li ui-sref-active="active" uib-dropdown class="dropdown pointer"
-                    ng-controller="JhiLanguageController as languageVm">
+                <li ui-sref-active="active" uib-dropdown class="dropdown pointer" ng-controller="JhiLanguageController as languageVm">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" ng-if="languageVm.languages.length > 1">
                         <span>
                             <span class="glyphicon glyphicon-flag"></span>
@@ -187,8 +173,7 @@
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu ng-if="languageVm.languages.length > 1">
                         <li active-menu="{{language}}" ng-repeat="language in languageVm.languages">
-                            <a href="" ng-click="languageVm.changeLanguage(language);vm.collapseNavbar();">{{language |
-                                findLanguageFromKey}}</a>
+                            <a href="" ng-click="languageVm.changeLanguage(language);vm.collapseNavbar();">{{language | findLanguageFromKey}}</a>
                         </li>
                     </ul>
                 </li>
