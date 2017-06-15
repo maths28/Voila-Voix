@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "idApi",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "result",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shaOne",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "changelogDate": "20170615091331",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "audios_post_computing",
+    "pagination": "no"
+}

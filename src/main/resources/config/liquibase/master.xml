@@ -10,6 +10,7 @@
     <include file="classpath:config/liquibase/changelog/20170613191328_added_entity_News.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170613191438_added_entity_Subscription.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170613191609_added_entity_Audio.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170615091331_added_entity_AudiosPostComputing.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20170613185843_added_entity_constraints_Definition.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

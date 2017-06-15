@@ -1,0 +1,64 @@
+<div>
+    <h2 data-translate="voilaVoix2App.audiosPostComputing.home.title">Audios Post Computings</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="audios-post-computing.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="voilaVoix2App.audiosPostComputing.home.createLabel">
+                        Create new Audios Post Computing
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="voilaVoix2App.audiosPostComputing.name">Name</span></th>
+                    <th><span data-translate="voilaVoix2App.audiosPostComputing.idApi">Id Api</span></th>
+                    <th><span data-translate="voilaVoix2App.audiosPostComputing.result">Result</span></th>
+                    <th><span data-translate="voilaVoix2App.audiosPostComputing.shaOne">Sha One</span></th>
+                    <th><span data-translate="voilaVoix2App.audiosPostComputing.date">Date</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="audiosPostComputing in vm.audiosPostComputings track by audiosPostComputing.id">
+                    <td><a ui-sref="audios-post-computing-detail({id:audiosPostComputing.id})">{{audiosPostComputing.id}}</a></td>
+                    <td>{{audiosPostComputing.name}}</td>
+                    <td>{{audiosPostComputing.idApi}}</td>
+                    <td>{{audiosPostComputing.result}}</td>
+                    <td>{{audiosPostComputing.shaOne}}</td>
+                        <td>{{audiosPostComputing.date | date:'mediumDate'}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="audios-post-computing-detail({id:audiosPostComputing.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="audios-post-computing.edit({id:audiosPostComputing.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="audios-post-computing.delete({id:audiosPostComputing.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

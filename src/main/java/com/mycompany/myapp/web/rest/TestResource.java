@@ -58,7 +58,7 @@ public class TestResource {
         if (audio != null) {
             log.debug("Nom du fichier audio uploadé deja present dans la bdd");
             JSONObject jsonAsSend = new JSONObject(audio.getFile_content_type());
-            Object respons =  jsonAsSend.toString();
+            Object respons = jsonAsSend.toString();
             return respons;
         } else {
             log.debug("Ajout de l'audio a la bdd");
@@ -93,11 +93,12 @@ public class TestResource {
         return this.smService.getResult(id);
     }
 
+
     private Audio containNameOfAudioFile(List<Audio> theList, String audioName) {
         for (Audio a : theList) {
             log.debug("LIST : " + a.getName() + " : " + audioName);
             if (a.getName().equalsIgnoreCase(audioName)) {
-                log.debug("TROUV2 ! " + a.getName());
+                log.debug("TROUVE ! " + a.getName());
                 return a;
             }
         }

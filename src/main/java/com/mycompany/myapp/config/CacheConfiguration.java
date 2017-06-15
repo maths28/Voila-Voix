@@ -46,6 +46,7 @@ public class CacheConfiguration {
             cm.createCache(com.mycompany.myapp.domain.News.class.getName(), jcacheConfiguration);
             cm.createCache(com.mycompany.myapp.domain.Subscription.class.getName(), jcacheConfiguration);
             cm.createCache(com.mycompany.myapp.domain.Audio.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.AudiosPostComputing.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

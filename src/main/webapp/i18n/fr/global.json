@@ -12,6 +12,7 @@
                 "news": "News",
                 "subscription": "Subscription",
                 "audio": "Audio",
+                "audiosPostComputing": "Audios Post Computing",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

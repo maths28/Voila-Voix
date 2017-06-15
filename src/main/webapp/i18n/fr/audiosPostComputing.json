@@ -1,0 +1,25 @@
+{
+    "voilaVoix2App": {
+        "audiosPostComputing" : {
+            "home": {
+                "title": "AudiosPostComputings",
+                "createLabel": "Créer un nouveau Audios Post Computing",
+                "createOrEditLabel": "Créer ou éditer un Audios Post Computing"
+            },
+            "created": "Un nouveau Audios Post Computing a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Audios Post Computing avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Audios Post Computing avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Audios Post Computing {{ id }} ?"
+            },
+            "detail": {
+                "title": "Audios Post Computing"
+            },
+            "name": "Name",
+            "idApi": "Id Api",
+            "result": "Result",
+            "shaOne": "Sha One",
+            "date": "Date"
+        }
+    }
+}
