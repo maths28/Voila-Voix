@@ -17,7 +17,7 @@
             views: {
                 'content@': {
                     templateUrl: 'app/demo/demo.html',
-                    controller: 'DemoController',
+                    controller: 'resultController',
                     controllerAs: 'vm'
                 }
             },
@@ -26,6 +26,9 @@
                     $translatePartialLoader.addPart('home');
                     return $translate.refresh();
                 }]
+                ,
+                isDemo: function(){return true}
+
             }
         });
     }
