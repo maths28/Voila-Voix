@@ -27,7 +27,6 @@
         vm.f3kCompt = 0;
         vm.idElmt = document.getElementById("m" + [vm.f3kCompt]);
 
-
         vm.tabOk = function (a) {
             if (a == vm.nbrWords) {
                 vm.readyToH = true;
@@ -38,7 +37,7 @@
             $scope.$watch(vm.idElmt);
             vm.idElmt = document.getElementById("m" + [i]);
             vm.idElmt.style = "display:yes";
-            vm.f3kCompt = parseInt(i*100/vm.nbrWords+1);
+            vm.f3kCompt = parseInt(i * 100 / vm.nbrWords + 1);
 
 
         }
@@ -48,8 +47,9 @@
             for (var i = 0; i < vm.nbrWords; i++) {
                 (function (i) {
                     $timeout(function () {
+                        Math.random();
                         vm.actualiziDE(i);
-                    }, (parseInt(i/8))*500);
+                    }, (parseInt(i / 12)) * 1000);
                 })(i);
             }
 
@@ -224,6 +224,7 @@
         if (!isDemo) {
             vm.appelSM();
             // vm.extractResult(json)
+
         }
         else {
             vm.result =
@@ -936,7 +937,15 @@
                 vm.extractResult(vm.result);
                 vm.responseSent = true;
                 vm.requestSent = true;
+                var player = document.querySelector('#audioPlayer');
+                player.addEventListener('loadedmetadata', function () {
+                    vm.durationAudioFile = player.duration;
+
+                });
+
+
             }
+
         }
 
 

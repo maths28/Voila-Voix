@@ -867,9 +867,12 @@
 
         };
 
+
         vm.result = json;
         vm.requestSent = true;
         vm.responseSent = true;
+        var player = document.querySelector('#audioPlayer');
+        vm.durationAudioFile = player.duration;
 
 
         vm.target = function (target, btnBool) {
