@@ -47,13 +47,20 @@
                 </div>
             </div>
         </div>
+        <div ng-if="vm.analyse">
         <span ng-repeat="word in vm.words">
-                 <a id="m{{vm.words.indexOf(word)}}" base ng-click="vm.target(vm.words.indexOf(word), true)"> {{word.name}} </a>
+                 <a id="m{{vm.words.indexOf(word)}}" base ng-click="vm.target(vm.words.indexOf(word), true)"
+                    ng-init="vm.tabOk(vm.words.indexOf(word))"> {{word.name}} </a>
+
+
         </span>
+
+        </div>
     </div>
 
-
     <div class="well col-md-9 ">
+        <div ng-if="vm.readyToH" ng-init="vm.mrHide()">a</div>
+        <div ng-if="vm.readyToS" ng-init="vm.f3k()">b</div>
         <b class="col-md-9"> Mots et intervales : </b>
         <button ng-click="vm.showWords()" class="col-md-3 btn  btn-primary"> {{vm.textBtn}}</button>
         <p/>

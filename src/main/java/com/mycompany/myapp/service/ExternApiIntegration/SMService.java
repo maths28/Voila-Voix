@@ -31,45 +31,45 @@ public class SMService {
     private AudioRepository audioRepository;
 
 
+
     private final Logger log = LoggerFactory.getLogger(LoggingConfiguration.class);
 
 
-    public SMService() {
+    public SMService(){
         this.restTemplate = new RestTemplate();
     }
 
 
-    public Map<String, String> sendRequest(File file) {
+    public Map<String, String> sendRequest(File file){
 //        Audio audio = audioRepository.findOne(Long.valueOf(id));
 //        Resource resource = resourceLoader.sgetResource("classpath:camus1.mp3");
         //TODO : Requete token et id
         try {
             return this.sendFileRequest(file, "MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2", "12066");
-        } catch (Exception e) {
+        } catch (Exception e){
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("error", e.toString());
             return errorMap;
         }
     }
-
-    public Map<String, Object> getResult(int id) {
+    public Map<String, Object> getResult(int id){
         String authToken = "MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2";
         String userId = "12066";
         try {
             Map<String, Object> status = this.getStatus(authToken, userId, id);
-            if (!this.isJobFinished(status)) {
+            if(!this.isJobFinished(status)){
                 return status;
             } else {
                 return this.getResult(authToken, userId, id);
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             Map<String, Object> errorMap = new HashMap<>();
             errorMap.put("error", e.toString());
             return errorMap;
         }
     }
 
-    private Map<String, String> sendFileRequest(File file, String authToken, String userId) {
+    private Map<String, String> sendFileRequest(File file, String authToken, String userId){
 
         try {
             //Envoi avec content-type multipart/form-data pour dépôt de fichier
@@ -89,25 +89,25 @@ public class SMService {
 
 
             //Construction de l'url
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/" + userId + "/jobs/")
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/"+userId+"/jobs/")
                 .queryParam("auth_token", authToken);
 
-            HashMap<String, String> dummy = new HashMap<>();
+            HashMap<String,String> dummy = new HashMap<>();
 
             log.debug("URL " + builder.build().encode().toUri());
 
             //Envoi requete
 
-            ResponseEntity<HashMap<String, String>> conversion =
+            ResponseEntity<HashMap<String,String>> conversion =
                 restTemplate.exchange(builder.build().encode().toUri(),
-                    HttpMethod.POST, entity, (Class<HashMap<String, String>>) dummy.getClass());
+                    HttpMethod.POST, entity, (Class<HashMap<String,String>>) dummy.getClass());
 
             return conversion.getBody();
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException e){
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("error", e.getResponseBodyAsString());
             return errorMap;
-        } catch (Exception e) {
+        } catch (Exception e){
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("error", e.getMessage());
             return errorMap;
@@ -115,29 +115,29 @@ public class SMService {
 
     }
 
-    private Map<String, Object> getStatus(String authToken, String userId, int id) {
+    private Map<String, Object> getStatus(String authToken, String userId, int id){
 
         try {
 
             //Construction de l'url
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/" + userId + "/jobs/" + id)
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/"+userId+"/jobs/"+id)
                 .queryParam("auth_token", authToken);
 
-            HashMap<String, Object> dummy = new HashMap<>();
+            HashMap<String,Object> dummy = new HashMap<>();
 
             log.debug("URL " + builder.build().encode().toUri());
 
             //Envoi requete
 
-            ResponseEntity<HashMap<String, Object>> conversion =
-                restTemplate.getForEntity(builder.build().encode().toUri(), (Class<HashMap<String, Object>>) dummy.getClass());
+            ResponseEntity<HashMap<String,Object>> conversion =
+                restTemplate.getForEntity(builder.build().encode().toUri(), (Class<HashMap<String, Object>>)dummy.getClass());
 
             return conversion.getBody();
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException e){
             Map<String, Object> errorMap = new HashMap<>();
             errorMap.put("error", e.getResponseBodyAsString());
             return errorMap;
-        } catch (Exception e) {
+        } catch (Exception e){
             Map<String, Object> errorMap = new HashMap<>();
             errorMap.put("error", e.getMessage());
             return errorMap;
@@ -145,29 +145,29 @@ public class SMService {
 
     }
 
-    private Map<String, Object> getResult(String authToken, String userId, int id) {
+    private Map<String, Object> getResult(String authToken, String userId, int id){
 
         try {
 
             //Construction de l'url
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/" + userId + "/jobs/" + id + "/transcript")
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/"+userId+"/jobs/"+id+"/transcript")
                 .queryParam("auth_token", authToken);
 
-            HashMap<String, Object> dummy = new HashMap<>();
+            HashMap<String,Object> dummy = new HashMap<>();
 
             log.debug("URL " + builder.build().encode().toUri());
 
             //Envoi requete
 
-            ResponseEntity<HashMap<String, Object>> conversion =
-                restTemplate.getForEntity(builder.build().encode().toUri(), (Class<HashMap<String, Object>>) dummy.getClass());
+            ResponseEntity<HashMap<String,Object>> conversion =
+                restTemplate.getForEntity(builder.build().encode().toUri(), (Class<HashMap<String, Object>>)dummy.getClass());
 
             return conversion.getBody();
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException e){
             Map<String, Object> errorMap = new HashMap<>();
             errorMap.put("error", e.getResponseBodyAsString());
             return errorMap;
-        } catch (Exception e) {
+        } catch (Exception e){
             Map<String, Object> errorMap = new HashMap<>();
             errorMap.put("error", e.getMessage());
             return errorMap;
@@ -175,9 +175,9 @@ public class SMService {
 
     }
 
-    private boolean isJobFinished(Map<String, Object> status) {
+    private boolean isJobFinished(Map<String, Object> status){
         Object job = status.get("job");
-        Map<String, Object> jobMap = (Map<String, Object>) job;
+        Map<String, Object> jobMap = (Map<String, Object>)job;
         return jobMap.get("check_wait") == null;
     }
 

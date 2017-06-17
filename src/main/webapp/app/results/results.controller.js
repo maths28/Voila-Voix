@@ -5,9 +5,9 @@
         .module('voilaVoix2App')
         .controller('resultController', resultController);
 
-    resultController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest', 'SMService', '$location'];
+    resultController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest', 'SMService', '$location', '$timeout'];
 
-    function resultController($scope, Principal, LoginService, $state, $resource, RestRequest, SMService, $location) {
+    function resultController($scope, Principal, LoginService, $state, $resource, RestRequest, SMService, $location, $timeout) {
         var vm = this;
         vm.id_analyse = null;
         vm.requestSent = false;
@@ -21,6 +21,50 @@
         vm.wordToSearch = "";
         vm.wordToSearchResult = [];
         vm.idToReset = [];
+        vm.readyToH = false;
+        vm.readyToS = false;
+        vm.analyse = false;
+        vm.f3kCompt = 0;
+        vm.idElmt = document.getElementById("m" + [vm.f3kCompt]);
+
+
+        vm.tabOk = function (a) {
+            if (a == vm.nbrWords) {
+                vm.readyToH = true;
+            }
+
+        }
+        vm.actualiziDE = function (i) {
+            $scope.$watch(vm.idElmt);
+            vm.idElmt = document.getElementById("m" + [i]);
+            vm.idElmt.style = "visibility:show";
+
+
+        }
+
+        vm.f3k = function () {
+            console.log(vm.nbrWords);
+            for (var i = 0; i < vm.nbrWords; i++) {
+                (function (i) {  // i will now become available for the someMethod to call
+                    $timeout(function () {
+                        vm.actualiziDE(i);
+                    }, 200*i+(vm.words[i]['name'].length)*18);
+                })(i); // Pass in i here
+            }
+
+
+        }
+
+
+        vm.mrHide = function () {
+            for (var i = 0; i <= vm.nbrWords; i++) {
+                var idElmt = document.getElementById("m" + [i]);
+                console.log(idElmt);
+                idElmt.style = "visibility:hidden";
+            }
+            vm.readyToS = true;
+        }
+
 
         vm.speakersFunction = function (speaker) {
             var json = vm.result;
@@ -121,6 +165,7 @@
                 }
 
             }
+            vm.analyse = true;
         };
 
         vm.isString = function (value) {
@@ -138,7 +183,9 @@
                         vm.result = result;
                         vm.id_analyse = vm.result.id;
                         vm.requestSent = true;
+
                     }
+
 
                 }, function () {
                     vm.result = "Aucun resultat";
@@ -158,6 +205,7 @@
                 });
             }
 
+
         };
 
         // vm.result = json;
@@ -174,6 +222,8 @@
         }
         vm.appelSM();
         // vm.extractResult(json)
+
+
     }
 
 

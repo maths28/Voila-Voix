@@ -22,6 +22,7 @@
         vm.wordToSearchResult = [];
         vm.idToReset = [];
 
+
         vm.speakersFunction = function (speaker) {
             var json = vm.result;
             for(var i = 0; i <= vm.nbrSpeakers ;i++){
