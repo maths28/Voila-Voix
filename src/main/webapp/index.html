@@ -11,12 +11,21 @@
     <!-- build:css content/css/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="bower_components/angular-horizontal-timeline/angular-horizontal-timeline.css">
     <!-- endinject -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
+
+
+
+
+
+
+
 </head>
 <body ng-app="voilaVoix2App" ng-strict-di>
 <!--[if lt IE 9]>
@@ -49,6 +58,10 @@
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/messageformat/messageformat.js"></script>
 <script src="bower_components/json3/lib/json3.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/moment-range/lib/moment-range.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/nvd3/build/nv.d3.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-aria/angular-aria.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -67,6 +80,8 @@
 <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
 <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
 <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+<script src="bower_components/angular-horizontal-timeline/angular-horizontal-timeline.js"></script>
+<script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
 
@@ -140,7 +155,6 @@
 <script src="app/entities/audio/audio.state.js"></script>
 <script src="app/entities/audio/audio.service.js"></script>
 <script src="app/entities/audio/audio.controller.js"></script>
-<script src="app/demo/js/bootstrap-slider.js"></script>
 <script src="app/demo/demo.state.js"></script>
 <script src="app/demo/demo.controller.js"></script>
 <script src="app/components/util/truncate-words.filter.js"></script>
@@ -223,3 +237,6 @@
 <script src="app/account/account.state.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
+
+</body>
+</html>

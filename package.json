@@ -63,5 +63,10 @@
   },
   "scripts": {
     "test": "gulp test"
+  },
+  "dependencies": {
+    "d3-color": "^1.0.3",
+    "d3-selection": "^1.1.0",
+    "d3-webpack-loader": "^0.1.1"
   }
 }
