@@ -346,28 +346,17 @@ ui bootstrap tweaks
 
 .main text {
     font: 12px sans-serif;
+    Font-Weight: Bold;
 }
 
 .miniItem0 {
-    fill: darksalmon;
-    stroke-width: 6;
-}
-
-.miniItem1 {
-    fill: darkolivegreen;
-    fill-opacity: .7;
-    stroke-width: 6;
-}
-
-.miniItem2 {
-    fill: slategray;
-    fill-opacity: .7;
-    stroke-width: 6;
+    fill: #93c8e9;
+    stroke-width: 1;
 }
 
 .brush .extent {
     stroke: gray;
-    fill: dodgerblue;
+    fill: #a7ffae;
     fill-opacity: .365;
 }
 

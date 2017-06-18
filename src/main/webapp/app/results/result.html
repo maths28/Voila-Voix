@@ -1,4 +1,3 @@
-
 <div ng-cloak class="row" ng-app="VoilaVoix2" ng-module="resultController">
 
     <h1 class="col-md-12"> Resultat du traitement audio </h1>
@@ -45,8 +44,7 @@
                 </div>
                 <div class="progress">
                     <div class="progress-bar"  role="progressbar" style="width:  {{vm.f3kCompt}}%;" aria-valuenow=" {{vm.f3kCompt}}" aria-valuemin="0" aria-valuemax="100"
-                         style="min-width: 2em;">
-                        {{vm.f3kCompt}}
+                         style="min-width: 2em;"> {{vm.f3kCompt}}
                     </div>
                 </div>
 
@@ -70,7 +68,7 @@
     <div class="well col-md-9 ">
         <div ng-if="vm.readyToH" ng-init="vm.mrHide()"></div>
         <div ng-if="vm.readyToS" ng-init="vm.f3k()"></div>
-        <b class="col-md-9"> Mots et intervales : </b>
+        <b class="col-md-9" ng-init="timelineJsonMaker()"> Mots et intervales : </b>
         <button ng-click="vm.showWords()" class="col-md-3 btn  btn-primary"> {{vm.textBtn}}</button>
         <p/>
 
