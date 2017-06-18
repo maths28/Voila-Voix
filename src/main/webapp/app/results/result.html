@@ -40,7 +40,6 @@
             <div ng-switch-default>
                 <div ng-if="!vm.responseSent && !vm.isString(vm.result)">
                     Transcription en cours... Veuillez patienter<br/>
-                    <button ng-click="vm.appelSM()" class="col-md-3 btn  btn-primary">Rafraichir les résultats</button>
                 </div>
                 <div ng-if="vm.isString(vm.result)">
                     {{vm.result}}
@@ -59,14 +58,39 @@
         <p/>
 
         <table class="table table-striped" ng-show=vm.show>
-            <tr ng-repeat="word in vm.words">
-                <td><b>Mot :</b> <a id="{{vm.words.indexOf(word)}}"
-                                    ng-click="vm.target('m'+vm.words.indexOf(word), true)">{{word.name}}</a>
-                    <div class="col-md-12"> Seconde : {{word.time}}</div>
-                    <div class="col-md-12"> Confiance : {{word.confidence}}</div>
-                    <div class="col-md-12"> Participant : {{word.speaker}}</div>
-                </td>
+            <thead>
+            <tr>
+                <th>Mot</th>
+                <th>Temps (en sec)</th>
+                <th>Confiance</th>
+                <th>Participant</th>
             </tr>
+
+            </thead>
+            <tbody>
+
+            <tr ng-repeat="word in vm.words">
+
+                <td colspan="4" ng-if="word.name == '.' ">Fin de phrase</td>
+
+
+
+
+                <td ng-if="word.name != '.' ">
+                    <a id="{{vm.words.indexOf(word)}}" ng-click="vm.target('m'+vm.words.indexOf(word), true)">{{word.name}}</a>
+                </td>
+                <td ng-if="word.name != '.' "> {{word.time}}</td>
+                <td ng-if="word.name != '.' "> {{word.confidence}}</td>
+                <td ng-if="word.name != '.' "> {{word.speaker}}</td>
+
+
+                </ng-switch>
+
+
+
+
+            </tr>
+            </tbody>
         </table>
     </div>
 </div>

@@ -8,7 +8,7 @@
     SMService.$inject = ['$resource', 'Upload'];
 
     function SMService ($resource, Upload) {
-        var service = $resource('testres/demo/:id', {}, {
+        var service = $resource('upload/job/:id', {}, {
             'get': { method: 'GET', params: {}, isArray: false,
                 interceptor: {
                     response: function(response) {
@@ -21,7 +21,7 @@
 
         service.post = function () {
             return Upload.upload({
-                url: 'testres/demo',
+                url: 'upload/job',
                 data: {file: service.audioFile}
             });
             //     .then(function (resp) {

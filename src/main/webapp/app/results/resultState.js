@@ -25,7 +25,8 @@
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                     $translatePartialLoader.addPart('home');
                     return $translate.refresh();
-                }]
+                }],
+                isDemo: function(){return false}
             }
         });
     }

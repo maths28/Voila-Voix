@@ -102,3 +102,8 @@ jhipster:
 # ===================================================================
 
 application:
+
+speechmatics:
+    apikey: MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2
+    userId: 12066
+    rootUrl: https://api.speechmatics.com/v1.0/user/

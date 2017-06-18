@@ -6,6 +6,7 @@ import fr.csid.voilavoix.repository.AudioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ import java.util.*;
  * Created by mathieu on 02/03/17.
  */
 
-@Service("smervice")
-public class SMService {
+@Service("smService")
+public class SpeechMaticsWebService implements APIInterface{
 
     private RestTemplate restTemplate;
 
@@ -34,12 +35,21 @@ public class SMService {
     @Autowired
     private AudioRepository audioRepository;
 
+    @Value("${speechmatics.apikey}")
+    private String smApiKey;
+
+    @Value("${speechmatics.userId}")
+    private String smUserId;
+
+    @Value("${speechmatics.rootUrl}")
+    private String rootUrl;
+
 
 
     private final Logger log = LoggerFactory.getLogger(LoggingConfiguration.class);
 
 
-    public SMService(){
+    public SpeechMaticsWebService(){
         this.restTemplate = new RestTemplate();
     }
 
@@ -47,9 +57,15 @@ public class SMService {
     public Map<String, String> sendRequest(File file){
 //        Audio audio = audioRepository.findOne(Long.valueOf(id));
 //        Resource resource = resourceLoader.sgetResource("classpath:camus1.mp3");
+
+        Map<String, String> exist = this.getExist(smApiKey, smUserId, file.getName());
         //TODO : Requete token et id
+       if(exist != null){
+           return exist;
+       }
+
         try {
-            return this.sendFileRequest(file, "MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2", "12066");
+            return this.sendFileRequest(file, smApiKey, smUserId);
         } catch (Exception e){
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("error", e.toString());
@@ -57,8 +73,8 @@ public class SMService {
         }
     }
     public Map<String, Object> getResult(int id){
-        String authToken = "MzMxMDY2NTQtOWZlMC00OTNkLTllOGMtMDEwYjU0NzBmYmE2";
-        String userId = "12066";
+        String authToken = smApiKey;
+        String userId = smUserId;
         try {
             Map<String, Object> status = this.getStatus(authToken, userId, id);
             if(!this.isJobFinished(status)){
@@ -93,7 +109,7 @@ public class SMService {
 
 
             //Construction de l'url
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/"+userId+"/jobs/")
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(rootUrl+userId+"/jobs/")
                 .queryParam("auth_token", authToken);
 
             HashMap<String,String> dummy = new HashMap<>();
@@ -119,12 +135,49 @@ public class SMService {
 
     }
 
+    private Map<String, String> getExist(String authToken, String userId, String fileName){
+
+        try {
+
+            //Construction de l'url
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(rootUrl+userId+"/jobs/")
+                .queryParam("auth_token", authToken);
+
+            HashMap<String,Object> dummy = new HashMap<>();
+
+            log.debug("URL " + builder.build().encode().toUri());
+
+            //Envoi requete
+
+            ResponseEntity<HashMap<String,Object>> conversion =
+                restTemplate.getForEntity(builder.build().encode().toUri(), (Class<HashMap<String, Object>>)dummy.getClass());
+
+            List<Map<String, String>> jobs = (List<Map<String, String>>)conversion.getBody().get("jobs");
+            for(Map<String, String> job : jobs){
+                if(job.get("name").equals(fileName)){
+                    return job;
+                }
+            }
+
+            return null;
+        } catch (HttpClientErrorException e){
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("error", e.getResponseBodyAsString());
+            return errorMap;
+        } catch (Exception e){
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("error", e.getMessage());
+            return errorMap;
+        }
+
+    }
+
     private Map<String, Object> getStatus(String authToken, String userId, int id){
 
         try {
 
             //Construction de l'url
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/"+userId+"/jobs/"+id)
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(rootUrl+userId+"/jobs/"+id)
                 .queryParam("auth_token", authToken);
 
             HashMap<String,Object> dummy = new HashMap<>();
@@ -154,7 +207,7 @@ public class SMService {
         try {
 
             //Construction de l'url
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.speechmatics.com/v1.0/user/"+userId+"/jobs/"+id+"/transcript")
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(rootUrl+userId+"/jobs/"+id+"/transcript")
                 .queryParam("auth_token", authToken);
 
             HashMap<String,Object> dummy = new HashMap<>();
