@@ -24,9 +24,9 @@
         vm.readyToH = false;
         vm.readyToS = false;
         vm.analyse = false;
-        vm.f3kCompt = 0;
+        vm.partOfTraitement = 0;
         vm.readyToHButton = true;
-        vm.idElmt = document.getElementById("m" + [vm.f3kCompt]);
+        vm.idElmt = document.getElementById("m" + [vm.partOfTraitement]);
         var items = [{
             "lane": 0, "id": "Gastronomie", "start": 3, "end": 10
         }, {
@@ -48,15 +48,20 @@
             $scope.$watch(vm.idElmt);
             vm.idElmt = document.getElementById("m" + [i]);
             vm.idElmt.style = "display:yes";
-            vm.f3kCompt = parseInt(i * 100 / vm.nbrWords + 1);
-            //     if (i == parseInt(vm.nbrWords-1)) { //cacher le bouton pour etendreles resultats
-            //         vm.readyToHButton = true;
-            //
-            //     }
-            //
+            vm.partOfTraitement = parseInt(i * 100 / vm.nbrWords + 1);
+            if (vm.partOfTraitement > 90) {
+                vm.idElmt = document.getElementById("timeline");
+                vm.idElmt.style = "display:yes";
+
+            }
+
+
         }
 
         vm.f3k = function () {
+            var idElmt = document.getElementById("timeline");
+            idElmt.style = "display:none";
+
             console.log(vm.nbrWords);
             for (var i = 0; i < vm.nbrWords; i++) {
                 (function (i) {
@@ -66,6 +71,7 @@
                     }, (parseInt(i / 12)) * 1000);
                 })(i);
             }
+
         }
 
 
@@ -1135,6 +1141,8 @@
             .attr("height", miniHeight - 1);
 
         function display() {
+            console.log(vm.partOfTraitement + " : " + vm.words.length - 1);
+
             var rects, labels,
                 minExtent = brush.extent()[0],
                 maxExtent = brush.extent()[1],
@@ -1155,7 +1163,7 @@
                         var idElmt = document.getElementById("m" + [i]);
                         idElmt.style = "display:none";
                     }
-                    for(var i = 0; i < tabShow.length; i++){
+                    for (var i = 0; i < tabShow.length; i++) {
                         var idElmt = document.getElementById("m" + tabShow[i]);
                         idElmt.style = "display:yes";
 
