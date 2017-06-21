@@ -200,13 +200,12 @@
                         vm.result = result;
                         vm.id_analyse = vm.result.id;
                         vm.requestSent = true;
-
                     }
-
-
+                    vm.appelSM();
                 }, function () {
                     vm.result = "Aucun resultat";
                     vm.requestSent = true;
+                    vm.appelSM();
                 });
             }
             else if (!vm.responseSent) {
@@ -215,13 +214,14 @@
                     if (angular.isDefined(vm.result.words)) {
                         vm.extractResult(vm.result);
                         vm.responseSent = true;
+                    } else {
+                        vm.appelSM();
                     }
                 }).catch(function () {
                     vm.result = "Aucun resultat";
                     vm.responseSent = true;
                 });
             }
-
 
         };
 

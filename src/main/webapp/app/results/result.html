@@ -40,7 +40,6 @@
             <div ng-switch-default>
                 <div ng-if="!vm.responseSent && !vm.isString(vm.result)">
                     Transcription en cours... Veuillez patienter<br/>
-                    <button ng-click="vm.appelSM()" class="col-md-3 btn  btn-primary">Rafraichir les résultats</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width:  {{vm.partOfTraitement}}%;" aria-valuenow=" {{vm.partOfTraitement}}" aria-valuemin="0" aria-valuemax="100"
