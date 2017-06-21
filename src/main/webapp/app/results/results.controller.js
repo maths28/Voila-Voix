@@ -25,7 +25,17 @@
         vm.readyToS = false;
         vm.analyse = false;
         vm.f3kCompt = 0;
+        vm.readyToHButton = true;
         vm.idElmt = document.getElementById("m" + [vm.f3kCompt]);
+        var items = [{
+            "lane": 0, "id": "Gastronomie", "start": 3, "end": 10
+        }, {
+            "lane": 0, "id": "Genin", "start": 11, "end": 29
+        }, {
+            "lane": 0, "id": "Paris", "start": 30, "end": 45
+        }, {
+            "lane": 0, "id": "Majestic12", "start": 45, "end": 60
+        }];
 
 
         vm.tabOk = function (a) {
@@ -39,8 +49,11 @@
             vm.idElmt = document.getElementById("m" + [i]);
             vm.idElmt.style = "display:yes";
             vm.f3kCompt = parseInt(i * 100 / vm.nbrWords + 1);
-
-
+            //     if (i == parseInt(vm.nbrWords-1)) { //cacher le bouton pour etendreles resultats
+            //         vm.readyToHButton = true;
+            //
+            //     }
+            //
         }
 
         vm.f3k = function () {
@@ -53,8 +66,6 @@
                     }, (parseInt(i / 12)) * 1000);
                 })(i);
             }
-
-
         }
 
 
@@ -949,37 +960,37 @@
 
         }
 
-
         var lanes = ["Mots"],
             laneLength = lanes.length,
-            items = [],
             timeBegin = 0,
-            timeEnd = 2000;
+            timeEnd = items[items.length - 1]['end'];
 
         vm.timelineJsonMaker = function () {
 
-            for (var forCompt = 0; forCompt < vm.nbrWords; forCompt++) {
-                var word = vm.words[forCompt]['name'];
-                var start = parseFloat(vm.words[forCompt]['time'] * 100);
-                var end = start + parseFloat(vm.words[forCompt]['duration'] * 100);
-                var jsonOfWord = {}
-                jsonOfWord.lane = 0;
-                jsonOfWord.id = word;
-                jsonOfWord.start = start;
-                jsonOfWord.end = end;
-                jsonOfWord.idHtml = forCompt;
+            // for (var forCompt = 0; forCompt < vm.nbrWords; forCompt++) {
+            //     var word = vm.words[forCompt]['name'];
+            //     var start = parseFloat(vm.words[forCompt]['time'] * 100);
+            //     var end = start + parseFloat(vm.words[forCompt]['duration'] * 100);
+            //     var jsonOfWord = {}
+            //     jsonOfWord.lane = 0;
+            //     jsonOfWord.id = word;
+            //     jsonOfWord.start = start;
+            //     jsonOfWord.end = end;
+            //     jsonOfWord.idHtml = forCompt;
+            //
+            //     items.push(jsonOfWord);
+            // }
 
-                items.push(jsonOfWord);
-            }
+
         }
         vm.timelineJsonMaker();
         console.log(items);
 
         var m = [20, 55, 15, 120], //top right bottom left
-            w = window.innerWidth - m[1] - m[3], //Pour l'adapter a la taille de l'ecran
+            w = 999 - m[1] - m[3], //Pour l'adapter a la taille de l'ecran
             h = 200 - m[0] - m[2],
             miniHeight = laneLength * 12 + 50,
-            mainHeight = h - miniHeight - 50;
+            mainHeight = h - miniHeight;
 
 
         //scales
@@ -995,7 +1006,7 @@
             .domain([0, laneLength])
             .range([0, miniHeight]);
 
-        var chart = d3.selectAll('body')
+        var chart = d3.selectAll('#timeline')
             .append("svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
@@ -1099,7 +1110,7 @@
         //mini labels
         mini.append("g").selectAll(".miniLabels")
             .data(items)
-            .enter().append("text")
+            .enter().append("text") //Recupere le texte pour les mini vignette
             .text(function (d) {
                 return d.id;
             })
@@ -1107,7 +1118,7 @@
                 return x(d.start);
             })
             .attr("y", function (d) {
-                return y2(d.lane + .5);
+                return y2(d.lane + .5); //Lane correspond au niveau, dans le cas present il n'y en a qu'un
             })
             .attr("dy", ".5ex");
 
@@ -1129,18 +1140,27 @@
                 maxExtent = brush.extent()[1],
                 visItems = items.filter(function (d) {
 
+                    var tabShow = [];
                     //ici pour l'interval pour disparaite ici pas en bas !
-                    // var y = 0;
-                    // for (var y = 0; y < vm.speakers.length - 1; y++) {
-                    //     y++;
-                    //     if (parseFloat(vm.words[y]['time']) >= parseFloat(minExtent) / 100 && parseFloat(vm.words[y]['time']) + parseFloat(vm.words[y]['duration']) <= parseFloat(maxExtent)) {
-                    //         console.log("Debut : " + parseFloat(vm.words[y]['time']) + ' debut curs : ' + parseFloat(minExtent) / 100 + ' fin ' + parseFloat(vm.words[y]['time']) + parseFloat(vm.words[y]['duration']) + ' fincurs :  ' + parseFloat(maxExtent) / 100);
-                    //         console.log(vm.words[y]['name']);
-                    //     } else {
-                    //
-                    //
-                    //     }
-                    // }
+                    for (var y = 0; y < vm.words.length - 1; y++) {
+                        if ((parseFloat(vm.words[y]['time']) > parseFloat(minExtent)) && (vm.words[y]['time'] < parseFloat(maxExtent))) {
+                            console.log(vm.words[y]['name']);
+                            tabShow.push(y);
+                        } else {
+                        }
+                    }
+                    console.log(tabShow);
+
+                    for (var i = 0; i <= vm.nbrWords; i++) {
+                        var idElmt = document.getElementById("m" + [i]);
+                        idElmt.style = "display:none";
+                    }
+                    for(var i = 0; i < tabShow.length; i++){
+                        var idElmt = document.getElementById("m" + tabShow[i]);
+                        idElmt.style = "display:yes";
+
+                    }
+
 
                     return d.start < maxExtent && d.end > minExtent;
                 });
@@ -1207,7 +1227,6 @@
             labels.exit().remove();
         }
 
-        display();
 
     }
 
