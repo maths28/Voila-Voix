@@ -73,6 +73,15 @@
             }
         };
 
+
+        vm.goHistoryResult = function (fileName) {
+            var file = new File([""], fileName);
+            SMService.audioFile = file;
+
+            $state.go('result');
+        }
+
+
         vm.submit = function () {
             if (vm.audio.file) {
 

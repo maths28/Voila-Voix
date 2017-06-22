@@ -5,9 +5,9 @@
         .module('voilaVoix2App')
         .controller('resultController', resultController);
 
-    resultController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest', 'SMService', '$location', 'isDemo', '$timeout'];
+    resultController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$resource', 'RestRequest', 'SMService', '$location', 'isDemo', '$timeout','$stateParams'];
 
-    function resultController($scope, Principal, LoginService, $state, $resource, RestRequest, SMService, $location, isDemo, $timeout) {
+    function resultController($scope, Principal, LoginService, $state, $resource, RestRequest, SMService, $location, isDemo, $timeout,$stateParams) {
         var vm = this;
         vm.id_analyse = null;
         vm.requestSent = false;
@@ -36,10 +36,11 @@
         }, {
             "lane": 0, "id": "Majestic12", "start": 45, "end": 60
         }];
-
+        var fileName = $stateParams.fileName;
+        console.log(fileName);
 
         vm.tabOk = function (a) {
-            if (a == vm.nbrWords) {
+            if (a == parseInt(vm.nbrWords)) {
                 vm.readyToH = true;
             }
 
@@ -966,7 +967,7 @@
 
         }
 
-        var lanes = ["Motsclé"],
+        var lanes = [""],
             laneLength = lanes.length,
             timeBegin = 0,
             timeEnd = items[items.length - 1]['end'];
