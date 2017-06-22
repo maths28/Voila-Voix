@@ -21,12 +21,6 @@
             id: null
         };
 
-        
-
-
-
-
-
         function getAccount() {
             Principal.identity().then(function (account) {
                 vm.account = account;
@@ -54,6 +48,12 @@
 
 
         function loadAll() {
+
+            Audio.query(function (result) {
+                vm.audio = result;
+            })
+
+
             News.query(function (result) {
                 vm.news = result;
             })

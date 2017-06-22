@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -7,11 +7,12 @@
 
     SMService.$inject = ['$resource', 'Upload'];
 
-    function SMService ($resource, Upload) {
-        var service = $resource('testres/demo/:id', {}, {
-            'get': { method: 'GET', params: {}, isArray: false,
+    function SMService($resource, Upload) {
+        var service = $resource('upload/job/:id', {}, {
+            'get': {
+                method: 'GET', params: {}, isArray: false,
                 interceptor: {
-                    response: function(response) {
+                    response: function (response) {
                         // expose response
                         return response.data;
                     }
@@ -21,7 +22,7 @@
 
         service.post = function () {
             return Upload.upload({
-                url: 'testres/demo',
+                url: 'upload/job',
                 data: {file: service.audioFile}
             });
             //     .then(function (resp) {

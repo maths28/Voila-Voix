@@ -66,8 +66,8 @@
     </div>
 
     <div class="well col-md-9 ">
-        <div ng-if="vm.readyToH" ng-init="vm.mrHide()"></div>
-        <div ng-if="vm.readyToS" ng-init="vm.f3k()"></div>
+        <div ng-if="vm.readyToH" ng-init="vm.hideWordsAfterFirstLoading()"></div>
+        <div ng-if="vm.readyToS" ng-init="vm.showWordsByPart()"></div>
         <b class="col-md-9"> Mots et intervales : </b>
         <button ng-click="vm.showWords()" class="col-md-3 btn  btn-primary"> {{vm.textBtn}}</button>
         <p/>

@@ -64,7 +64,10 @@ public class UploadResource {
             File tempFile = new File(System.getProperty("java.io.temp") + "/" + name);
             FileUtils.writeByteArrayToFile(tempFile, file.getBytes());
 //        file.transferTo(tempFile);
+
+            // *** the biggy ***
             Map<String, String> result = smService.sendRequest(tempFile);
+
             tempFile.delete();
             JSONObject jsonResult = new JSONObject(result);
             try {

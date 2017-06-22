@@ -36,17 +36,12 @@
 </div>
 
 <div class="row well container">
-    <table>
-        <tr ng-repeat="item in vm.history">
-            <td>{{item}}</td>
-        </tr>
-    </table>
 
     <div class="col-md-6">
         <h1>Historique</h1>
         <table>
-            <tr ng-repeat="new in vm.news ">
-                <td>{{new.title}}</td>
+            <tr ng-repeat="history in vm.audio ">
+                <td>{{history.name}}</td>
 
             </tr>
         </table>
@@ -61,7 +56,7 @@
                 <td>{{new.title}}
                     <div class="col-md-12">{{new.description}}</div>
                 </td>
-                <td>{{new.newsDate}}</td>
+                <td>{{new.news_date}}</td>
             </tr>
         </table>
 

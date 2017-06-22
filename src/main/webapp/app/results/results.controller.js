@@ -58,7 +58,7 @@
 
         }
 
-        vm.f3k = function () {
+        vm.showWordsByPart = function () {
             var idElmt = document.getElementById("timeline");
             idElmt.style = "display:none";
 
@@ -75,7 +75,7 @@
         }
 
 
-        vm.mrHide = function () {
+        vm.hideWordsAfterFirstLoading = function () {
             for (var i = 0; i <= vm.nbrWords; i++) {
                 var idElmt = document.getElementById("m" + [i]);
                 idElmt.style = "display:none";
@@ -966,30 +966,11 @@
 
         }
 
-        var lanes = ["Mots"],
+        var lanes = ["Motsclé"],
             laneLength = lanes.length,
             timeBegin = 0,
             timeEnd = items[items.length - 1]['end'];
 
-        vm.timelineJsonMaker = function () {
-
-            // for (var forCompt = 0; forCompt < vm.nbrWords; forCompt++) {
-            //     var word = vm.words[forCompt]['name'];
-            //     var start = parseFloat(vm.words[forCompt]['time'] * 100);
-            //     var end = start + parseFloat(vm.words[forCompt]['duration'] * 100);
-            //     var jsonOfWord = {}
-            //     jsonOfWord.lane = 0;
-            //     jsonOfWord.id = word;
-            //     jsonOfWord.start = start;
-            //     jsonOfWord.end = end;
-            //     jsonOfWord.idHtml = forCompt;
-            //
-            //     items.push(jsonOfWord);
-            // }
-
-
-        }
-        vm.timelineJsonMaker();
         console.log(items);
 
         var m = [20, 55, 15, 120], //top right bottom left
