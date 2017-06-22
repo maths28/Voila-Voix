@@ -39,12 +39,14 @@
             </div>
             <div ng-switch-default>
                 <div ng-if="!vm.responseSent && !vm.isString(vm.result)">
-                    Transcription en cours... Veuillez patienter<br/>
+                    Transcription en cours... Veuillez patienter
                     <div class="loader"></div>
+                    <br/>
 
                 </div>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width:  {{vm.partOfTraitement}}%;" aria-valuenow=" {{vm.partOfTraitement}}" aria-valuemin="0" aria-valuemax="100"
+                    <div class="progress-bar" role="progressbar" style="width:  {{vm.partOfTraitement}}%;"
+                         aria-valuenow=" {{vm.partOfTraitement}}" aria-valuemin="0" aria-valuemax="100"
                          style="min-width: 2em;">
                         {{vm.partOfTraitement}}
                     </div>

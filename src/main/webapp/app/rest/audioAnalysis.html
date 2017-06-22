@@ -34,7 +34,7 @@
     <div class="row" style="border: 3px">
         <div class="col-md-6">
             <h1>Historique</h1>
-            <table>
+            <table  class="table table-striped">
                 <tr ng-repeat="history in vm.audio ">
                     <td><button type="button" class="btn btn-success" ng-click="vm.goHistoryResult(history.name)">{{history.name}}</button></td>
 
