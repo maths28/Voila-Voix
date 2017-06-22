@@ -19,7 +19,7 @@ import metaClass.Definition;
  *
  */
 
-public class main {
+public class runAnalyse {
 
 	static BabelSynsets babelSynsets;
 	

@@ -17,7 +17,7 @@ public class Word {
 	public Word(String aWord, List<BabelSynset> aSynset) {
 		this.sysnet = new ArrayList<>();
 		for (BabelSynset a : aSynset) {
-			Definition def = new Definition(a.toString().replaceAll("wiki:fr:", ""));
+			Definition def = new Definition(a.toString().replaceAll("WIKI:FR:", ""));
 			this.sysnet.add(def);
 			System.out.println("LELELELLELEL  " + a.toString());
 

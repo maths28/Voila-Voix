@@ -50,11 +50,15 @@ public class TextTools {
 
 		List<String> wordsTab = new ArrayList<String>(Arrays.asList(aText.split(" ")));
 
-		// On enleves les lettres seul ou les cases vides.
+		// On enleves les lettres seuls ou les cases vides.
 		for (int i = 0; i < wordsTab.size(); i++) {
 			if (wordsTab.get(i).length() <= 1) {
 				wordsTab.remove(i);
 			}
+			if (wordsTab.get(i).length() <= 1) {
+				wordsTab.remove(i);
+			}
+
 		}
 		System.out.println(wordsTab);
 		return wordsTab;

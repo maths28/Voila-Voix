@@ -123,7 +123,8 @@ public class MyService {
 		Word found = repo.findOneByName(aWord);
 		if (found == null) {
 			Word word = new Word(aWord, bn.getSynsets(aWord, Language.FR));
-			System.out.println("Objet crée NET");
+			
+			System.out.println("Objet crée NET"  + word.getSynsetList());
 			return word;
 		} else {
 			System.out.println("Object in BDD");
