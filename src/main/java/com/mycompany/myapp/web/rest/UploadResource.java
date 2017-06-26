@@ -100,7 +100,7 @@ public class UploadResource {
             log.error("RESULT : " + result.toString());
             audio = new Audio();
             audio.setName(tempFile.getName());
-            audio.setFile_content_type(result.toString());
+            audio.setFile_content_type(jsonResult.toString());
             audio.setFile(file.getBytes());
             audioR.createAudio(audio);
             tempFile.delete();
