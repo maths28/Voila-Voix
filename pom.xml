@@ -12,9 +12,9 @@
 
     <groupId>com.mycompany.myapp</groupId>
     <artifactId>voila-voix-2</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2-Alpha</version>
     <packaging>war</packaging>
-    <name>Voila Voix 2</name>
+    <name>VoilaVoix2</name>
 
     <properties>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>

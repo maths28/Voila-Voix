@@ -101,6 +101,7 @@ public class UploadResource {
             audio = new Audio();
             audio.setName(tempFile.getName());
             audio.setFile_content_type(result.toString());
+            audio.setFile(file.getBytes());
             audioR.createAudio(audio);
             tempFile.delete();
             log.error("RESULT : " + result.toString());
