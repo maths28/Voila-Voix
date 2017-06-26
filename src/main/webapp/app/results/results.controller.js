@@ -332,11 +332,12 @@
             $scope.$watch(vm.idElmt);
             vm.idElmt = document.getElementById("m" + [i]);
             vm.idElmt.style = "display:yes";
-            vm.partOfTraitement = parseInt(i * 100 / vm.nbrWords-1);
+            vm.partOfTraitement = parseInt(i * 100 / vm.nbrWords - 1);
             if (vm.partOfTraitement > 90) {
+                vm.partOfTraitement = 100;
                 vm.idElmt = document.getElementById("timeline");
                 vm.idElmt.style = "display:yes";
-                if(!vm.isD3init){
+                if (!vm.isD3init) {
                     initD3js();
                     vm.isD3init = true;
                 }
