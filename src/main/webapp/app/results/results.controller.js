@@ -28,26 +28,30 @@
         vm.readyToHButton = true;       //Il fut un temps ...
         vm.result = null;
         vm.idElmt = document.getElementById("m");
+        vm.isD3init = false;
         var items = null;  //Contient les "themes
 
-        var initAllHardCodedValues = function () { //Permet d'executer une fonction necessitant une valeur hardcodé dans le back ou la bdd. Il faut virer l'url en dure
-            $http.get("http://localhost:8080/demojson").success(function (data) {
+        var getHardCodedDemoData = function () { //Permet d'executer une fonction necessitant une valeur hardcodé dans le back ou la bdd. Il faut virer l'url en dure
+            $http.get("/demojson").success(function (data) {
                 vm.result = data;
                 isDefined();
             }).error(function (data, status) {
 
             });
-            $http.get("http://localhost:8080/timelinesens").success(function (data) {
+
+
+        };
+
+        var getHardCodedTimeline = function () {
+            $http.get("/timelinesens").success(function (data) {
                 items = data;
-                initD3js();
                 console.log(items);
 
 
             }).error(function (data, status) {
 
             });
-
-        }
+        };
 
         var initD3js = function () {
 
@@ -58,8 +62,8 @@
 
             console.log(items);
 
-            var m = [20, 55, 15, 120], //top right bottom left
-                w = 999 - m[1] - m[3], //Pour l'adapter a la taille de l'ecran
+            var m = [20, 55, 15, 60], //top right bottom left
+                w = 800 - m[1] - m[3], //Pour l'adapter a la taille de l'ecran
                 h = 200 - m[0] - m[2],
                 miniHeight = laneLength * 12 + 50,
                 mainHeight = h - miniHeight;
@@ -328,10 +332,14 @@
             $scope.$watch(vm.idElmt);
             vm.idElmt = document.getElementById("m" + [i]);
             vm.idElmt.style = "display:yes";
-            vm.partOfTraitement = parseInt(i * 100 / vm.nbrWords + 1);
+            vm.partOfTraitement = parseInt(i * 100 / vm.nbrWords-1);
             if (vm.partOfTraitement > 90) {
                 vm.idElmt = document.getElementById("timeline");
                 vm.idElmt.style = "display:yes";
+                if(!vm.isD3init){
+                    initD3js();
+                    vm.isD3init = true;
+                }
 
             }
 
@@ -516,8 +524,9 @@
             // vm.extractResult(json)
         }
         else {
-            initAllHardCodedValues();
+            getHardCodedDemoData();
         }
+        getHardCodedTimeline();
 
 
     }

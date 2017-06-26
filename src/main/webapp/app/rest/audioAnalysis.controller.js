@@ -14,6 +14,8 @@
         vm.account = null;
         vm.isAuthenticated = null;
         vm.filename = "";
+        vm.startTime = "00:00:20";
+        vm.endTime = "00:00:30";
         vm.audio = {
             name: null,
             file: null,
@@ -77,6 +79,8 @@
         vm.goHistoryResult = function (fileName) {
             var file = new File([""], fileName);
             SMService.audioFile = file;
+            SMService.startTime = "";
+            SMService.endTime = "";
 
             $state.go('result');
         }
@@ -84,7 +88,8 @@
 
         vm.submit = function () {
             if (vm.audio.file) {
-
+                SMService.startTime = vm.startTime;
+                SMService.endTime = vm.endTime;
                 SMService.audioFile = vm.audio.file;
                 $state.go('result');
                 // Audio.save(vm.audio.file, function (result) {

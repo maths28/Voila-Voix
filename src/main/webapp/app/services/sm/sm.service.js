@@ -23,7 +23,11 @@
         service.post = function () {
             return Upload.upload({
                 url: 'upload/job',
-                data: {file: service.audioFile}
+                data: {
+                    file: service.audioFile,
+                    startTime: service.startTime,
+                    endTime: service.endTime
+                }
             });
             //     .then(function (resp) {
             //     console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
@@ -37,7 +41,8 @@
 
         service.idAudioUploaded = undefined;
         service.audioFile = undefined;
-
+        service.startTime = undefined;
+        service.endTime = undefined;
         return service;
     }
 })();

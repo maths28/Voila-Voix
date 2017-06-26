@@ -24,6 +24,17 @@
                 <input type="text" ng-model="vm.audio.file.name" class="form-control" readonly>
             </div>
 
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <label>Début (format hh:mm:ss)
+                        <input type="text" ng-model="vm.startTime" class="form-control"></label>
+                </div>
+                <div class="col-md-3">
+                    <label>Fin (format hh:mm:ss)
+                        <input type="text" ng-model="vm.endTime" class="form-control"></label>
+                </div>
+            </div>
             <br/>
             <button class="btn btn-lg btn-primary" ng-click="vm.submit()">submit</button>
         </form>

@@ -1,13 +1,10 @@
-package fr.csid.voilavoix.service;
+package com.mycompany.myapp.service;
 
-import fr.csid.voilavoix.config.LoggingConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 
 /**
  * Created by blozach on 22/06/17.
@@ -16,7 +13,7 @@ import java.io.InputStreamReader;
 @Service
 public class Mp3Cutter {
 
-    private final Logger log = LoggerFactory.getLogger(LoggingConfiguration.class);
+    private final Logger log = LoggerFactory.getLogger(Mp3Cutter.class);
 
     public File cutMP3(File initialFile, String startTime, String endTime){
         Process process;
