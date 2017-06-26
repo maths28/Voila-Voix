@@ -108,18 +108,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>it.uniroma1.lcl.babelnet</groupId>
-            <artifactId>babelnet-api</artifactId>
-            <version>3.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>it.uniroma1.lcl.jlt</groupId>
-            <artifactId>jltutils</artifactId>
-            <version>2.2</version>
-        </dependency>
-
 
         <dependency>
             <groupId>io.github.jhipster</groupId>
@@ -585,7 +573,7 @@
                     <url>jdbc:mysql://localhost:3306/VoilaVoix2</url>
                     <defaultSchemaName>VoilaVoix2</defaultSchemaName>
                     <username>root</username>
-                    <password></password>
+                    <password>root</password>
                     <referenceUrl>
                         hibernate:spring:com.mycompany.myapp.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
                     </referenceUrl>

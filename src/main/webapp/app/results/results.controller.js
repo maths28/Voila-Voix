@@ -39,6 +39,165 @@
         var fileName = $stateParams.fileName;
         console.log(fileName);
 
+
+
+
+        //variables pour le schema d3
+        var x = undefined;
+        var x1 = undefined;
+        var y1 = undefined;
+        var y2 = undefined;
+        var chart = undefined;
+        var main = undefined;
+        var mini = undefined;
+        var itemRects = undefined;
+        var brush = undefined;
+
+        function createGraphics() {
+            x = d3.scale.linear()
+                .domain([timeBegin, timeEnd])
+                .range([0, w]);
+            x1 = d3.scale.linear()
+                .range([0, w]);
+            y1 = d3.scale.linear()
+                .domain([0, laneLength])
+                .range([0, mainHeight]);
+            y2 = d3.scale.linear()
+                .domain([0, laneLength])
+                .range([0, miniHeight]);
+
+            chart = d3.selectAll('#timeline')
+                .append("svg")
+                .attr("width", w + m[1] + m[3])
+                .attr("height", h + m[0] + m[2])
+                .attr("class", "chart");
+
+            chart.append("defs").append("clipPath")
+                .attr("id", "clip")
+                .append("rect")
+                .attr("width", w)
+                .attr("height", mainHeight);
+
+            main = chart.append("g")
+                .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+                .attr("width", w)
+                .attr("height", mainHeight)
+                .attr("class", "main");
+
+            mini = chart.append("g")
+                .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]) + ")")
+                .attr("width", w)
+                .attr("height", miniHeight)
+                .attr("class", "mini");
+
+            //main lanes and texts
+            main.append("g").selectAll(".laneLines")
+                .data(items)
+                .enter().append("line")
+                .attr("x1", m[1])
+                .attr("y1", function (d) {
+                    return y1(d.lane);
+                })
+                .attr("x2", w)
+                .attr("y2", function (d) {
+                    return y1(d.lane);
+                })
+                .attr("stroke", "lightgray")
+
+            main.append("g").selectAll(".laneText")
+                .data(lanes)
+                .enter().append("text")
+                .text(function (d) {
+                    return d;
+                })
+                .attr("x", -m[1])
+                .attr("y", function (d, i) {
+                    return y1(i);
+                })
+                .attr("dy", ".5ex")
+                .attr("text-anchor", "end")
+                .attr("class", "laneText");
+
+            //mini lanes and texts
+            mini.append("g").selectAll(".laneLines")
+                .data(items)
+                .enter().append("line")
+                .attr("x1", m[1])
+                .attr("y1", function (d) {
+                    return y2(d.lane);
+                })
+                .attr("x2", w)
+                .attr("y2", function (d) {
+                    return y2(d.lane);
+                })
+                .attr("stroke", "lightgray");
+
+            mini.append("g").selectAll(".laneText")
+                .data(lanes)
+                .enter().append("text")
+                .text(function (d) {
+                    return d;
+                })
+                .attr("x", -m[1])
+                .attr("y", function (d, i) {
+                    return y2(i + .5);
+                })
+                .attr("dy", ".5ex")
+                .attr("text-anchor", "end")
+                .attr("class", "laneText");
+
+            itemRects = main.append("g")
+                .attr("clip-path", "url(#clip)");
+
+            //mini item rects
+            mini.append("g").selectAll("miniItems")
+                .data(items)
+                .enter().append("rect")
+                .attr("class", function (d) {
+                    return "miniItem" + d.lane;
+                })
+                .attr("x", function (d) {
+                    return x(d.start);
+                })
+                .attr("y", function (d) {
+                    return y2(d.lane + .5) - 5; //Permet de regler l'emplacement  de la barre rose du mini
+                })
+                .attr("width", function (d) {
+                    return x(d.end - d.start);
+                })
+                .attr("height", 10);
+
+            //mini labels
+            mini.append("g").selectAll(".miniLabels")
+                .data(items)
+                .enter().append("text") //Recupere le texte pour les mini vignette
+                .text(function (d) {
+                    return d.id;
+                })
+                .attr("x", function (d) {
+                    return x(d.start);
+                })
+                .attr("y", function (d) {
+                    return y2(d.lane + .5); //Lane correspond au niveau, dans le cas present il n'y en a qu'un
+                })
+                .attr("dy", ".5ex");
+
+            //brush
+            brush = d3.svg.brush()
+                .x(x)
+                .on("brush", display);
+
+            mini.append("g")
+                .attr("class", "x brush")
+                .call(brush)
+                .selectAll("rect")
+                .attr("y", 1)
+                .attr("height", miniHeight - 1);
+        }
+
+
+
+
         vm.tabOk = function (a) {
             if (a == parseInt(vm.nbrWords)) {
                 vm.readyToH = true;
@@ -53,7 +212,9 @@
             if (vm.partOfTraitement > 90) {
                 vm.idElmt = document.getElementById("timeline");
                 vm.idElmt.style = "display:yes";
-
+                if(chart === undefined){
+                    createGraphics();
+                }
             }
 
 
@@ -975,152 +1136,14 @@
         console.log(items);
 
         var m = [20, 55, 15, 120], //top right bottom left
-            w = 999 - m[1] - m[3], //Pour l'adapter a la taille de l'ecran
+            w = 500 - m[1] - m[3], //Pour l'adapter a la taille de l'ecran
             h = 200 - m[0] - m[2],
             miniHeight = laneLength * 12 + 50,
             mainHeight = h - miniHeight;
 
 
         //scales
-        var x = d3.scale.linear()
-            .domain([timeBegin, timeEnd])
-            .range([0, w]);
-        var x1 = d3.scale.linear()
-            .range([0, w]);
-        var y1 = d3.scale.linear()
-            .domain([0, laneLength])
-            .range([0, mainHeight]);
-        var y2 = d3.scale.linear()
-            .domain([0, laneLength])
-            .range([0, miniHeight]);
 
-        var chart = d3.selectAll('#timeline')
-            .append("svg")
-            .attr("width", w + m[1] + m[3])
-            .attr("height", h + m[0] + m[2])
-            .attr("class", "chart");
-
-        chart.append("defs").append("clipPath")
-            .attr("id", "clip")
-            .append("rect")
-            .attr("width", w)
-            .attr("height", mainHeight);
-
-        var main = chart.append("g")
-            .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-            .attr("width", w)
-            .attr("height", mainHeight)
-            .attr("class", "main");
-
-        var mini = chart.append("g")
-            .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]) + ")")
-            .attr("width", w)
-            .attr("height", miniHeight)
-            .attr("class", "mini");
-
-        //main lanes and texts
-        main.append("g").selectAll(".laneLines")
-            .data(items)
-            .enter().append("line")
-            .attr("x1", m[1])
-            .attr("y1", function (d) {
-                return y1(d.lane);
-            })
-            .attr("x2", w)
-            .attr("y2", function (d) {
-                return y1(d.lane);
-            })
-            .attr("stroke", "lightgray")
-
-        main.append("g").selectAll(".laneText")
-            .data(lanes)
-            .enter().append("text")
-            .text(function (d) {
-                return d;
-            })
-            .attr("x", -m[1])
-            .attr("y", function (d, i) {
-                return y1(i);
-            })
-            .attr("dy", ".5ex")
-            .attr("text-anchor", "end")
-            .attr("class", "laneText");
-
-        //mini lanes and texts
-        mini.append("g").selectAll(".laneLines")
-            .data(items)
-            .enter().append("line")
-            .attr("x1", m[1])
-            .attr("y1", function (d) {
-                return y2(d.lane);
-            })
-            .attr("x2", w)
-            .attr("y2", function (d) {
-                return y2(d.lane);
-            })
-            .attr("stroke", "lightgray");
-
-        mini.append("g").selectAll(".laneText")
-            .data(lanes)
-            .enter().append("text")
-            .text(function (d) {
-                return d;
-            })
-            .attr("x", -m[1])
-            .attr("y", function (d, i) {
-                return y2(i + .5);
-            })
-            .attr("dy", ".5ex")
-            .attr("text-anchor", "end")
-            .attr("class", "laneText");
-
-        var itemRects = main.append("g")
-            .attr("clip-path", "url(#clip)");
-
-        //mini item rects
-        mini.append("g").selectAll("miniItems")
-            .data(items)
-            .enter().append("rect")
-            .attr("class", function (d) {
-                return "miniItem" + d.lane;
-            })
-            .attr("x", function (d) {
-                return x(d.start);
-            })
-            .attr("y", function (d) {
-                return y2(d.lane + .5) - 5; //Permet de regler l'emplacement  de la barre rose du mini
-            })
-            .attr("width", function (d) {
-                return x(d.end - d.start);
-            })
-            .attr("height", 10);
-
-        //mini labels
-        mini.append("g").selectAll(".miniLabels")
-            .data(items)
-            .enter().append("text") //Recupere le texte pour les mini vignette
-            .text(function (d) {
-                return d.id;
-            })
-            .attr("x", function (d) {
-                return x(d.start);
-            })
-            .attr("y", function (d) {
-                return y2(d.lane + .5); //Lane correspond au niveau, dans le cas present il n'y en a qu'un
-            })
-            .attr("dy", ".5ex");
-
-        //brush
-        var brush = d3.svg.brush()
-            .x(x)
-            .on("brush", display);
-
-        mini.append("g")
-            .attr("class", "x brush")
-            .call(brush)
-            .selectAll("rect")
-            .attr("y", 1)
-            .attr("height", miniHeight - 1);
 
         function display() {
             console.log(vm.partOfTraitement + " : " + vm.words.length - 1);
